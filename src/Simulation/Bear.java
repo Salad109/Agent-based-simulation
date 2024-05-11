@@ -1,4 +1,4 @@
-package Actors;
+package Simulation;
 
 public class Bear extends Animal{
     public Bear(int x, int y){

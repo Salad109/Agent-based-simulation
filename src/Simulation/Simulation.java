@@ -3,22 +3,22 @@ package Simulation;
 import java.util.Random;
 
 public class Simulation {
-    public static Random RNG = new Random();
-    public static int simulationSize = 20;
-
+    public static Random RNG = new Random(System.currentTimeMillis());
+    protected final static int simulationSize = 20;
+    protected final static double startingSpawnRate = 0.25;
     public static void main(String[] args) {
-        Map simulationMap = new Map(simulationSize, 0.25);
+        AnimalHandler animalHandler = new AnimalHandler();
 
-        GUI grid = new GUI(simulationMap.animals);
+        GUI grid = new GUI(animalHandler.getAnimals());
         grid.display();
 
         //noinspection InfiniteLoopStatement
         while (true) {
             try {
-                simulationMap.nextFrame();
-                grid.update(simulationMap.animals);
+                animalHandler.nextFrame();
+                grid.update(animalHandler.getAnimals());
                 //noinspection BusyWait
-                Thread.sleep(1000);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 //noinspection CallToPrintStackTrace
                 e.printStackTrace();
