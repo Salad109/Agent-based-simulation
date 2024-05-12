@@ -2,17 +2,20 @@ package Simulation;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 public class GUI extends JPanel {
     private LinkedList<Animal> actors;
+    private ArrayList<ArrayList<Tile>> tiles;
     private final Map<String, Image> animalImages;
     private JFrame frame;
 
-    public GUI(LinkedList<Animal> actors) {
+    public GUI(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
+        this.tiles = tiles;
         setPreferredSize(new Dimension(800, 800)); // Set the preferred size of the panel
 
         animalImages = new HashMap<>();
@@ -21,6 +24,7 @@ public class GUI extends JPanel {
         animalImages.put("Bear", Toolkit.getDefaultToolkit().getImage("Simulation/Bear.png"));
         animalImages.put("Vulture", Toolkit.getDefaultToolkit().getImage("Simulation/Vulture.png"));
         animalImages.put("Carcass", Toolkit.getDefaultToolkit().getImage("Simulation/Carcass.png"));
+
     }
 
     @Override
@@ -30,8 +34,17 @@ public class GUI extends JPanel {
         int cellSize = Math.min(getWidth(), getHeight()) / Simulation.simulationSize;
 
         // Draw grass
-        g.setColor(Color.getHSBColor(1/3f,0.8f,0.75f));
-        g.fillRect(0, 0, getWidth(), getHeight());
+
+        g.fillRect(cellSize, cellSize, cellSize, cellSize);
+        for (int i = 0; i < Simulation.simulationSize; i++) {
+            for (int j = 0; j < Simulation.simulationSize; j++) {
+                if (tiles.get(j).get(i).getGrass())
+                    g.setColor(Color.getHSBColor(120 / 360f, 0.8f, 0.75f));
+                else
+                    g.setColor(Color.getHSBColor(20 / 360f, 0.6f, 0.45f));
+                g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+            }
+        }
 
         // Draw actors
         for (Animal actor : actors) {
@@ -63,6 +76,8 @@ public class GUI extends JPanel {
     protected void display() {
         frame = new JFrame("Actor Grid");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Simulation/Icon.png"));
+
 
         frame.add(this);
 
@@ -72,8 +87,9 @@ public class GUI extends JPanel {
         frame.setVisible(true);
     }
 
-    protected void update(LinkedList<Animal> actors) {
+    protected void update(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
+        this.tiles = tiles;
         frame.repaint();
     }
 }
