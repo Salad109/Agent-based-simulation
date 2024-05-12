@@ -1,31 +1,69 @@
 package Simulation;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AnimalHandler {
     private LinkedList<Animal> animals;
-    private Tile[][] grassGrid;
+    private ArrayList<ArrayList<Tile>> grassGrid;
 
     AnimalHandler() {
         animalSpawner();
+        grassSpawner();
     }
 
     public LinkedList<Animal> getAnimals() {
         return animals;
     }
 
+    public ArrayList<ArrayList<Tile>> getTiles() {
+        return grassGrid;
+    }
+
     public void nextFrame() {
-        for (Animal a : animals) {
-            a.act();
+        animalsAct();
+        tilesAct();
+    }
+
+    private void animalsAct() {
+        for (int i = 0; i < Simulation.animalCount; i++) {
+            Animal animal = animals.get(i);
+
+            killStarving(animal);
+
+            animal.act(getAnimals(), getTiles());
+        }
+    }
+    private void killStarving(Animal animal){
+        if (animal.isMarkedForDeath()) {
+            int posX = animal.getPositionX();
+            int posY = animal.getPositionY();
+            animals.remove(animal);
+            Simulation.animalCount -= 1;
+            Animal corpse = new Carcass(posX, posY);
+            animals.add(corpse);
         }
     }
 
-    private void grassSpawner() {
-        grassGrid = new Tile[Simulation.simulationSize][Simulation.simulationSize];
-        for (int i = 0; i < Simulation.simulationSize; i++) {
-            for (int j = 0; j < Simulation.simulationSize; j++) {
-                grassGrid[i][j] = new Tile();
+    private void tilesAct() {
+        for (ArrayList<Tile> row : grassGrid) {
+            for (Tile tile : row) {
+                if (!tile.getGrass())
+                    tile.attemptRegrow();
             }
+        }
+
+    }
+
+    private void grassSpawner() {
+        grassGrid = new ArrayList<>(20);
+        for (int i = 0; i < Simulation.simulationSize; i++) {
+            ArrayList<Tile> row = new ArrayList<>(20);
+            for (int j = 0; j < Simulation.simulationSize; j++) {
+                Tile tile = new Tile(Simulation.RNG.nextDouble());
+                row.add(tile);
+            }
+            grassGrid.add(row);
         }
     }
 
@@ -53,4 +91,5 @@ public class AnimalHandler {
             }
         }
     }
+
 }
