@@ -49,12 +49,15 @@ public class GUI extends JPanel {
             }
         }
 
-        // Draw actors
+        // TODO Copy actors with robust error handling
         LinkedList<Animal> newActors = new LinkedList<>();
+
         for (int i = 0; i < Simulation.animalCount; i++) {
-                newActors.add(actors.get(i));
+            newActors.add(actors.get(i));
         }
 
+
+        // Draw actors
         Iterator<Animal> it = newActors.iterator();
         while (it.hasNext()) {
             Animal actor = it.next();

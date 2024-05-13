@@ -8,8 +8,7 @@ public class Sheep extends Animal {
         super(x, y);
         diet = new LinkedList<>();
 
-        //foodFromEating -= 10;
-        foodBirthThreshold -= 75;
+        foodBirthThreshold -= 50;
     }
 
     @Override

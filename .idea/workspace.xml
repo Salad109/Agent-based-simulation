@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="06472f02-564f-4f38-bd1a-f457fec8827f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Simulation/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulation/.idea/artifacts/Simulation_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulation/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulation/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulation/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Simulation/Simulation.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Simulation/Simulation.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Simulation/Simulation.java" afterDir="false" />
-    </list>
+    <list default="true" id="06472f02-564f-4f38-bd1a-f457fec8827f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +43,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Mat/Documents/PIWO STUDIA DZIEKAN/2Obiektowe/Simulation/src/Simulation",
+    "last_opened_file_path": "C:/Users/szole/Desktop/Purroject/src/Simulation",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -67,7 +58,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-17.0.10-temurin-17.0.10-4caba194b151-b3785831" />
+        <option value="jdk-17.0.10-corretto-17.0.10-4caba194b151-5cd809f4" />
       </set>
     </attachedChunks>
   </component>
@@ -85,6 +76,7 @@
       <workItem from="1715434004989" duration="649000" />
       <workItem from="1715437346250" duration="38000" />
       <workItem from="1715548292888" duration="97000" />
+      <workItem from="1715676761745" duration="78000" />
     </task>
     <servers />
   </component>

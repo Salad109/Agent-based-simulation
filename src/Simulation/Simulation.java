@@ -22,7 +22,10 @@ public class Simulation {
         grid.display();
         long previousTime = System.currentTimeMillis();
 
-        while (true) {
+        long tickCount = 0;
+        long tickTarget = Long.MAX_VALUE; // TODO demo
+
+        do {
             try {
                 animalHandler.nextFrame();
                 grid.revalidate();
@@ -37,13 +40,22 @@ public class Simulation {
                     TimeUnit.MILLISECONDS.sleep(tickLengthMS - elapsedTime);
                 }
 
+                tickCount += 1;
                 previousTime = currentTime; // Update for next iteration
             } catch (InterruptedException e) {
                 Logger logger = Logger.getLogger("Simulation logger");
                 logger.log(Level.SEVERE, "Simulation loop interrupted", e);
             }
-        }
+        } while (animalCount > 0 && tickCount < tickTarget); // Simulation ends when tick target is reached or the last animal is dead
 
+        long totalTimeS = tickLengthMS * tickCount / 1000;
+        long minutes = totalTimeS / 60;
+        long seconds = totalTimeS % 60;
+
+        String endMessage = String.format("All actors died, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
+        System.out.println(endMessage);
+
+        System.exit(0);
     }
 
 }

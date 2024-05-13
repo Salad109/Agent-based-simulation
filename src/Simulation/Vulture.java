@@ -10,8 +10,8 @@ public class Vulture extends Animal {
         diet.add("Carcass");
 
         foodBirthThreshold *= 25;
-        foodFromEating += 5;
-        foodLossPerTurn += 1;
+        foodFromEating += 15;
+        foodLossPerTurn += 3;
     }
 
     @Override

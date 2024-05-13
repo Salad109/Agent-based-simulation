@@ -19,11 +19,10 @@ public abstract class Animal {
     protected LinkedList<String> diet;
     protected double foodFromEating = 15;
     protected double foodLossPerTurn = 1;
-    protected double foodBirthThreshold = 200;
+    protected double foodBirthThreshold = 250;
 
 
-
-    public boolean isMarkedForDeath() {
+    public boolean getMarkedForDeath() {
         return markedForDeath;
     }
 
@@ -44,15 +43,14 @@ public abstract class Animal {
         evaluateFood(animals);
     }
 
-    protected void hunt(LinkedList<Animal> animals,  ArrayList<ArrayList<Tile>> tiles) {
+    protected void hunt(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 
         int action = lookAtTile(newX, newY, animals);
-        if (action == 0)
+        if (action == 0) // 0 = Empty tile
             moveToTile(newX, newY);
-            // else if (action == 2)  Means tile is occupied by something inedible, unable to act
-        else if (action == 2) {
+        else if (action == 2) { // 2 = Target edible
             eatTarget(newX, newY, animals);
             moveToTile(newX, newY);
         }
@@ -69,13 +67,10 @@ public abstract class Animal {
     protected int lookAtTile(int newX, int newY, LinkedList<Animal> animals) { // 2 = Target edible, 1 = Target inedible, 0 = Empty tile
         for (Animal animal : animals) {
             if (animal.getPositionX() == newX && animal.getPositionY() == newY) {
-                if (canEat(animal)) {
+                if (canEat(animal))
                     return 2;
-                } else if (animal.getSpecies().equals("Carcass")) {
-                    return 0;
-                } else {
+                else
                     return 1;
-                }
             }
         }
         return 0;
@@ -119,24 +114,24 @@ public abstract class Animal {
             switch (getSpecies()) {
                 case "Wolf":
                     newborn = new Wolf(newX, newY);
-
                     animals.add(newborn);
                     break;
+
                 case "Bear":
                     newborn = new Bear(newX, newY);
-
                     animals.add(newborn);
                     break;
+
                 case "Vulture":
                     newborn = new Vulture(newX, newY);
-
                     animals.add(newborn);
                     break;
+
                 case "Sheep":
                     newborn = new Sheep(newX, newY);
-
                     animals.add(newborn);
                     break;
+
                 default:
             }
         }
@@ -155,5 +150,11 @@ public abstract class Animal {
         } while (newA < 0 || newA >= Simulation.simulationSize);
         return newA;
     }
+
+    @Override
+    public String toString(){
+        return getSpecies() + "(" + getPositionX() + ", " + getPositionY() + ")";
+    }
+
 }
 

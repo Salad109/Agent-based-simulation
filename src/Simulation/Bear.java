@@ -8,6 +8,7 @@ public class Bear extends Animal {
         diet = new LinkedList<>();
         diet.add("Sheep");
         diet.add("Wolf");
-        foodFromEating += 5;
+        foodLossPerTurn -= 0.5;
+        foodBirthThreshold += 75;
     }
 }

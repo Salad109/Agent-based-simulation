@@ -4,12 +4,44 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class AnimalHandler {
+    private static class AnimalKiller {
+        private void killAllMarked(LinkedList<Animal> animals) {
+            for (int i = 0; i < Simulation.animalCount; i++) {
+                Animal animal = animals.get(i);
+                if (animal.getMarkedForDeath()) {
+                    animals.remove(animal);
+                    Simulation.animalCount -= 1;
+                    if (!animal.getSpecies().equals("Carcass")) {
+                        int posX = animal.getPositionX();
+                        int posY = animal.getPositionY();
+
+                        Animal corpse = new Carcass(posX, posY);
+                        animals.add(corpse);
+                    }
+                }
+            }
+        }
+    }
+
+    private class AnimalActer {
+        private void act(LinkedList<Animal> animals) {
+            for (int i = 0; i < Simulation.animalCount; i++) {
+                Animal animal = animals.get(i);
+                animal.act(getAnimals(), getTiles());
+            }
+        }
+    }
+
     private LinkedList<Animal> animals;
     private ArrayList<ArrayList<Tile>> grassGrid;
+    private final AnimalKiller killer;
+    private final AnimalActer acter;
 
     AnimalHandler() {
         animalSpawner();
         grassSpawner();
+        killer = new AnimalKiller();
+        acter = new AnimalActer();
     }
 
     public LinkedList<Animal> getAnimals() {
@@ -26,23 +58,8 @@ public class AnimalHandler {
     }
 
     private void animalsAct() {
-        for (int i = 0; i < Simulation.animalCount; i++) {
-            Animal animal = animals.get(i);
-
-            killStarving(animal);
-
-            animal.act(getAnimals(), getTiles());
-        }
-    }
-    private void killStarving(Animal animal){
-        if (animal.isMarkedForDeath()) {
-            int posX = animal.getPositionX();
-            int posY = animal.getPositionY();
-            animals.remove(animal);
-            Simulation.animalCount -= 1;
-            Animal corpse = new Carcass(posX, posY);
-            animals.add(corpse);
-        }
+        killer.killAllMarked(getAnimals());
+        acter.act(getAnimals());
     }
 
     private void tilesAct() {
