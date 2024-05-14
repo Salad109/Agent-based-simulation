@@ -1,4 +1,6 @@
-package Simulation;
+package agentsimulation.agent;
+
+import agentsimulation.logic.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,7 +17,7 @@ public class Vulture extends Animal {
     }
 
     @Override
-    protected void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         for (int i = 0; i < 20; i++)
             hunt(animals, tiles);
         evaluateFood(animals);

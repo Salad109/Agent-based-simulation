@@ -1,4 +1,7 @@
-package Simulation;
+package agentsimulation.logic;
+
+import agentsimulation.Simulation;
+
 
 public class Tile {
 

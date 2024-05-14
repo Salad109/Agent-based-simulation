@@ -1,4 +1,7 @@
-package Simulation;
+package agentsimulation.logic;
+
+import agentsimulation.Simulation;
+import agentsimulation.agent.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,7 +30,14 @@ public class GUI extends JPanel {
         animalTypes.add("Carcass");
 
         for (String name : animalTypes) {
-            animalImages.put(name, Toolkit.getDefaultToolkit().getImage(name.concat(".png")));
+            // Use the class loader to get the resource URL
+            String imagePath = "images/" + name + ".png";
+            java.net.URL imgUrl = getClass().getClassLoader().getResource(imagePath);
+            if (imgUrl != null) {
+                animalImages.put(name, Toolkit.getDefaultToolkit().getImage(imgUrl));
+            } else {
+                System.err.println("Could not find image: " + imagePath);
+            }
         }
     }
 
@@ -90,11 +100,13 @@ public class GUI extends JPanel {
         }
     }
 
-    protected void display() {
+    public void display() {
         frame = new JFrame("Actor Grid");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage("Icon.png"));
 
+        String imagePath = "images/Icon.png";
+        java.net.URL imgUrl = getClass().getClassLoader().getResource(imagePath);
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(imgUrl));
 
         frame.add(this);
 
@@ -104,7 +116,7 @@ public class GUI extends JPanel {
         frame.setVisible(true);
     }
 
-    protected void update(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
+    public void update(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
         frame.repaint();

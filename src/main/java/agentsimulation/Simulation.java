@@ -1,4 +1,6 @@
-package Simulation;
+package agentsimulation;
+
+import agentsimulation.logic.*;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -6,19 +8,19 @@ import java.util.logging.*;
 
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
-    protected final static int simulationSize = 40;
+    public final static int simulationSize = 40;
     public static int animalCount;
-    protected final static double startingSpawnRate = 0.25;
+    public final static double startingSpawnRate = 0.25;
     private final static int tickLengthMS = 25;
 
     public static void main(String[] args) {
-        AnimalHandler animalHandler = new AnimalHandler();
-        GUI grid = new GUI(animalHandler.getAnimals(), animalHandler.getTiles());
+        AgentHandler agentHandler = new AgentHandler();
+        GUI grid = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
 
-        runSimulation(animalHandler, grid, tickLengthMS);
+        runSimulation(agentHandler, grid);
     }
 
-    private static void runSimulation(AnimalHandler animalHandler, GUI grid, int tickLengthMS) {
+    private static void runSimulation(AgentHandler agentHandler, GUI grid) {
         grid.display();
         long previousTime = System.currentTimeMillis();
 
@@ -27,17 +29,17 @@ public class Simulation {
 
         do {
             try {
-                animalHandler.nextFrame();
+                agentHandler.nextFrame();
                 grid.revalidate();
-                grid.update(animalHandler.getAnimals(), animalHandler.getTiles());
+                grid.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
                 // Calculate time elapsed since last iteration
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - previousTime;
 
                 // Sleep for remaining time (if needed)
-                if (elapsedTime < tickLengthMS) {
-                    TimeUnit.MILLISECONDS.sleep(tickLengthMS - elapsedTime);
+                if (elapsedTime < Simulation.tickLengthMS) {
+                    TimeUnit.MILLISECONDS.sleep(Simulation.tickLengthMS - elapsedTime);
                 }
 
                 tickCount += 1;
@@ -48,7 +50,7 @@ public class Simulation {
             }
         } while (animalCount > 0 && tickCount < tickTarget); // Simulation ends when tick target is reached or the last animal is dead
 
-        long totalTimeS = tickLengthMS * tickCount / 1000;
+        long totalTimeS = Simulation.tickLengthMS * tickCount / 1000;
         long minutes = totalTimeS / 60;
         long seconds = totalTimeS % 60;
 

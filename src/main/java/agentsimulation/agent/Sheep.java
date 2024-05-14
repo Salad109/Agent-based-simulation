@@ -1,4 +1,6 @@
-package Simulation;
+package agentsimulation.agent;
+
+import agentsimulation.logic.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -12,7 +14,7 @@ public class Sheep extends Animal {
     }
 
     @Override
-    protected void hunt(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void hunt(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 

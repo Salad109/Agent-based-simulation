@@ -1,4 +1,4 @@
-package Simulation;
+package agentsimulation.agent;
 
 import java.util.LinkedList;
 

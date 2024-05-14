@@ -1,4 +1,7 @@
-package Simulation;
+package agentsimulation.agent;
+
+import agentsimulation.logic.*;
+import agentsimulation.Simulation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -38,7 +41,7 @@ public abstract class Animal {
         return getClass().getSimpleName();
     }
 
-    protected void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         hunt(animals, tiles);
         evaluateFood(animals);
     }

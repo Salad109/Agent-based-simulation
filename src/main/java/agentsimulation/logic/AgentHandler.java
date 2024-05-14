@@ -1,47 +1,43 @@
-package Simulation;
+package agentsimulation.logic;
+
+import agentsimulation.agent.*;
+import agentsimulation.Simulation;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class AnimalHandler {
-    private static class AnimalKiller {
-        private void killAllMarked(LinkedList<Animal> animals) {
-            for (int i = 0; i < Simulation.animalCount; i++) {
-                Animal animal = animals.get(i);
-                if (animal.getMarkedForDeath()) {
-                    animals.remove(animal);
-                    Simulation.animalCount -= 1;
-                    if (!animal.getSpecies().equals("Carcass")) {
-                        int posX = animal.getPositionX();
-                        int posY = animal.getPositionY();
+public class AgentHandler {
+    private void killAllMarked(LinkedList<Animal> animals) {
+        for (int i = 0; i < Simulation.animalCount; i++) {
+            Animal animal = animals.get(i);
+            if (animal.getMarkedForDeath()) {
+                animals.remove(animal);
+                Simulation.animalCount -= 1;
+                if (!animal.getSpecies().equals("Carcass")) {
+                    int posX = animal.getPositionX();
+                    int posY = animal.getPositionY();
 
-                        Animal corpse = new Carcass(posX, posY);
-                        animals.add(corpse);
-                    }
+                    Animal corpse = new Carcass(posX, posY);
+                    animals.add(corpse);
                 }
             }
         }
     }
 
-    private class AnimalActer {
-        private void act(LinkedList<Animal> animals) {
-            for (int i = 0; i < Simulation.animalCount; i++) {
-                Animal animal = animals.get(i);
-                animal.act(getAnimals(), getTiles());
-            }
+
+    private void act(LinkedList<Animal> animals) {
+        for (int i = 0; i < Simulation.animalCount; i++) {
+            Animal animal = animals.get(i);
+            animal.act(getAnimals(), getTiles());
         }
     }
 
     private LinkedList<Animal> animals;
     private ArrayList<ArrayList<Tile>> grassGrid;
-    private final AnimalKiller killer;
-    private final AnimalActer acter;
 
-    AnimalHandler() {
+    public AgentHandler() {
         animalSpawner();
         grassSpawner();
-        killer = new AnimalKiller();
-        acter = new AnimalActer();
     }
 
     public LinkedList<Animal> getAnimals() {
@@ -58,8 +54,8 @@ public class AnimalHandler {
     }
 
     private void animalsAct() {
-        killer.killAllMarked(getAnimals());
-        acter.act(getAnimals());
+        killAllMarked(getAnimals());
+        act(getAnimals());
     }
 
     private void tilesAct() {
