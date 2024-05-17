@@ -11,7 +11,6 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GUI extends JPanel {
     private ConcurrentLinkedQueue<Animal> actors;
     private ArrayList<ArrayList<Tile>> tiles;
-    private final Map<String, Image> animalImages;
     private JFrame frame;
 
     public GUI(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
