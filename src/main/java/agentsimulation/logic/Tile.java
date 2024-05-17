@@ -10,10 +10,7 @@ public class Tile {
 
     private boolean Grass;
     Tile(double randomInitializer) {
-        if (randomInitializer > 0.75)
-            Grass = true;
-        else
-            Grass = false;
+        Grass = randomInitializer > 0.75; // if (random > 0.75) Grass = true; else Grass = false;
     }
 
     public boolean getGrass() {
