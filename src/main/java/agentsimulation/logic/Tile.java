@@ -2,7 +2,6 @@ package agentsimulation.logic;
 
 import agentsimulation.Simulation;
 
-
 public class Tile {
 
     public void setGrass(boolean grass) {

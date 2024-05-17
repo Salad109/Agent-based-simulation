@@ -4,19 +4,20 @@ import agentsimulation.agent.*;
 import agentsimulation.Simulation;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Iterator;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class AgentHandler {
-    private void killAllMarked(LinkedList<Animal> animals) {
-        for (int i = 0; i < Simulation.animalCount; i++) {
-            Animal animal = animals.get(i);
+    private void killAllMarked(ConcurrentLinkedQueue<Animal> animals) {
+        Iterator<Animal> it = animals.iterator();
+        while (it.hasNext()) {
+            Animal animal = it.next();
             if (animal.getMarkedForDeath()) {
-                animals.remove(animal);
+                it.remove();
                 Simulation.animalCount -= 1;
-                if (!animal.getSpecies().equals("Carcass")) {
+                if (!animal.getSpecies().equals("Carcass")) { // Place a carcass in place of starved animals
                     int posX = animal.getPositionX();
                     int posY = animal.getPositionY();
-
                     Animal corpse = new Carcass(posX, posY);
                     animals.add(corpse);
                 }
@@ -25,14 +26,14 @@ public class AgentHandler {
     }
 
 
-    private void act(LinkedList<Animal> animals) {
-        for (int i = 0; i < Simulation.animalCount; i++) {
-            Animal animal = animals.get(i);
+    private void act(ConcurrentLinkedQueue<Animal> animals) {
+        for (Animal animal : animals) {
             animal.act(getAnimals(), getTiles());
         }
     }
 
-    private LinkedList<Animal> animals;
+
+    private ConcurrentLinkedQueue<Animal> animals;
     private ArrayList<ArrayList<Tile>> grassGrid;
 
     public AgentHandler() {
@@ -40,7 +41,7 @@ public class AgentHandler {
         grassSpawner();
     }
 
-    public LinkedList<Animal> getAnimals() {
+    public ConcurrentLinkedQueue<Animal> getAnimals() {
         return animals;
     }
 
@@ -82,7 +83,7 @@ public class AgentHandler {
 
     private void animalSpawner() {
         double startingSpawnRate = 0.25;
-        animals = new LinkedList<>();
+        animals = new ConcurrentLinkedQueue<>();
 
         for (int i = 0; i < Simulation.simulationSize; i++) {
             for (int j = 0; j < Simulation.simulationSize; j++) {

@@ -6,14 +6,15 @@ import agentsimulation.agent.*;
 import javax.swing.*;
 import java.awt.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GUI extends JPanel {
-    private LinkedList<Animal> actors;
+    private ConcurrentLinkedQueue<Animal> actors;
     private ArrayList<ArrayList<Tile>> tiles;
     private final Map<String, Image> animalImages;
     private JFrame frame;
 
-    public GUI(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
+    public GUI(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
         setPreferredSize(new Dimension(800, 800));
@@ -105,7 +106,7 @@ public class GUI extends JPanel {
         frame.setVisible(true);
     }
 
-    public void update(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
+    public void update(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
         frame.repaint();

@@ -4,7 +4,9 @@ import agentsimulation.logic.*;
 import agentsimulation.Simulation;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Animal {
     public int getPositionX() {
@@ -41,12 +43,12 @@ public abstract class Animal {
         return getClass().getSimpleName();
     }
 
-    public void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         hunt(animals, tiles);
         evaluateFood(animals);
     }
 
-    protected void hunt(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    protected void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 
@@ -59,7 +61,7 @@ public abstract class Animal {
         }
     }
 
-    protected void evaluateFood(LinkedList<Animal> animals) {
+    protected void evaluateFood(ConcurrentLinkedQueue<Animal> animals) {
         storedFood -= foodLossPerTurn;
         if (storedFood >= foodBirthThreshold)
             attemptBirth(animals);
@@ -68,7 +70,7 @@ public abstract class Animal {
     }
 
     // 2 = Target edible, 1 = Target inedible(tile obstructed), 0 = Empty tile
-    protected int lookAtTile(int newX, int newY, LinkedList<Animal> animals) {
+    protected int lookAtTile(int newX, int newY, ConcurrentLinkedQueue<Animal> animals) {
         for (Animal animal : animals) {
             if (animal.getPositionX() == newX && animal.getPositionY() == newY) {
                 if (canEat(animal))
@@ -94,21 +96,21 @@ public abstract class Animal {
         return false;
     }
 
-    protected void eatTarget(int targetX, int targetY, LinkedList<Animal> animals) {
-        int i = 0;
-        while (i < animals.size()) {
-            Animal animal = animals.get(i);
+    protected void eatTarget(int targetX, int targetY, ConcurrentLinkedQueue<Animal> animals) {
+        Iterator<Animal> it = animals.iterator();
+        while (it.hasNext()) {
+            Animal animal = it.next();
             if (animal.getPositionX() == targetX && animal.getPositionY() == targetY) {
-                animals.remove(i);
+                it.remove(); // Remove using iterator method
                 Simulation.animalCount -= 1;
                 storedFood += foodFromEating;
-            } else {
-                i++;
+                break; // Stop iterating after finding the target
             }
         }
     }
 
-    protected void attemptBirth(LinkedList<Animal> animals) {
+
+    protected void attemptBirth(ConcurrentLinkedQueue<Animal> animals) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 
@@ -156,7 +158,7 @@ public abstract class Animal {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return getSpecies() + "(" + getPositionX() + ", " + getPositionY() + ")";
     }
 

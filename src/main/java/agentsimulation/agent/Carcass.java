@@ -4,7 +4,7 @@ import agentsimulation.logic.*;
 import agentsimulation.Simulation;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Carcass extends Animal {
     private int decomposingTurns;
@@ -15,7 +15,7 @@ public class Carcass extends Animal {
     }
 
     @Override
-    public void act(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         if (decomposingTurns++ >= 30) {
             markedForDeath = true;
             fertilizeSurroundings(tiles);

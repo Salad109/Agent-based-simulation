@@ -4,6 +4,7 @@ import agentsimulation.logic.*;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Sheep extends Animal {
     public Sheep(int x, int y) {
@@ -14,7 +15,7 @@ public class Sheep extends Animal {
     }
 
     @Override
-    public void hunt(LinkedList<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 
