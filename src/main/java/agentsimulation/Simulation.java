@@ -10,7 +10,6 @@ public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
     public final static int simulationSize = 40;
     public static int animalCount;
-    public final static double startingSpawnRate = 0.25;
     private final static int tickLengthMS = 25;
 
     public static void main(String[] args) {
@@ -25,7 +24,7 @@ public class Simulation {
         long previousTime = System.currentTimeMillis();
 
         long tickCount = 0;
-        long tickTarget = Long.MAX_VALUE; // TODO demo
+        long tickTarget = Long.MAX_VALUE; // TODO demo value
 
         do {
             try {
@@ -33,22 +32,21 @@ public class Simulation {
                 grid.revalidate();
                 grid.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
-                // Calculate time elapsed since last iteration
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - previousTime;
 
-                // Sleep for remaining time (if needed)
                 if (elapsedTime < Simulation.tickLengthMS) {
                     TimeUnit.MILLISECONDS.sleep(Simulation.tickLengthMS - elapsedTime);
                 }
 
                 tickCount += 1;
-                previousTime = currentTime; // Update for next iteration
+                previousTime = currentTime;
             } catch (InterruptedException e) {
                 Logger logger = Logger.getLogger("Simulation logger");
                 logger.log(Level.SEVERE, "Simulation loop interrupted", e);
             }
-        } while (animalCount > 0 && tickCount < tickTarget); // Simulation ends when tick target is reached or the last animal is dead
+            // Simulation ends when tick target is reached or the last animal is dead
+        } while (animalCount > 0 && tickCount < tickTarget);
 
         long totalTimeS = Simulation.tickLengthMS * tickCount / 1000;
         long minutes = totalTimeS / 60;

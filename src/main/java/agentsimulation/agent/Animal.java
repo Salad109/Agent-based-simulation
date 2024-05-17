@@ -67,7 +67,8 @@ public abstract class Animal {
             markedForDeath = true;
     }
 
-    protected int lookAtTile(int newX, int newY, LinkedList<Animal> animals) { // 2 = Target edible, 1 = Target inedible, 0 = Empty tile
+    // 2 = Target edible, 1 = Target inedible(tile obstructed), 0 = Empty tile
+    protected int lookAtTile(int newX, int newY, LinkedList<Animal> animals) {
         for (Animal animal : animals) {
             if (animal.getPositionX() == newX && animal.getPositionY() == newY) {
                 if (canEat(animal))
@@ -98,11 +99,11 @@ public abstract class Animal {
         while (i < animals.size()) {
             Animal animal = animals.get(i);
             if (animal.getPositionX() == targetX && animal.getPositionY() == targetY) {
-                animals.remove(i); // Remove element at current index
+                animals.remove(i);
                 Simulation.animalCount -= 1;
                 storedFood += foodFromEating;
             } else {
-                i++; // Only increment i if not removed
+                i++;
             }
         }
     }

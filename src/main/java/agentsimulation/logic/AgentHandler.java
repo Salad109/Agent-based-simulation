@@ -81,11 +81,12 @@ public class AgentHandler {
     }
 
     private void animalSpawner() {
+        double startingSpawnRate = 0.25;
         animals = new LinkedList<>();
 
         for (int i = 0; i < Simulation.simulationSize; i++) {
             for (int j = 0; j < Simulation.simulationSize; j++) {
-                if (Simulation.startingSpawnRate >= Simulation.RNG.nextDouble()) {
+                if (startingSpawnRate >= Simulation.RNG.nextDouble()) {
                     double seed = Simulation.RNG.nextDouble();
                     Animal animal;
                     if (seed < 0.2)

@@ -16,7 +16,7 @@ public class GUI extends JPanel {
     public GUI(LinkedList<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
-        setPreferredSize(new Dimension(800, 800)); // Set the preferred size of the panel
+        setPreferredSize(new Dimension(800, 800));
         animalImages = new HashMap<>();
         loadImages();
     }
@@ -30,7 +30,6 @@ public class GUI extends JPanel {
         animalTypes.add("Carcass");
 
         for (String name : animalTypes) {
-            // Use the class loader to get the resource URL
             String imagePath = "images/" + name + ".png";
             java.net.URL imgUrl = getClass().getClassLoader().getResource(imagePath);
             if (imgUrl != null) {
@@ -92,7 +91,7 @@ public class GUI extends JPanel {
 
 
         // Draw grid lines
-        g.setColor(Color.BLACK); // Set color for grid lines
+        g.setColor(Color.BLACK);
         for (int i = 0; i <= Simulation.simulationSize; i++) {
             int linePos = i * cellSize;
             g.drawLine(0, linePos, getWidth(), linePos);
@@ -110,7 +109,6 @@ public class GUI extends JPanel {
 
         frame.add(this);
 
-        // Pack and display the frame
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
