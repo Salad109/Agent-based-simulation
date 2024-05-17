@@ -58,18 +58,8 @@ public class GUI extends JPanel {
             }
         }
 
-        // TODO Copy actors with robust error handling
-        LinkedList<Animal> newActors = new LinkedList<>();
-
-        for (int i = 0; i < Simulation.animalCount; i++) {
-            newActors.add(actors.get(i));
-        }
-
-
         // Draw actors
-        Iterator<Animal> it = newActors.iterator();
-        while (it.hasNext()) {
-            Animal actor = it.next();
+        for (Animal actor : actors) {
             if (actor == null)
                 continue;
 
@@ -103,6 +93,7 @@ public class GUI extends JPanel {
         frame = new JFrame("Actor Grid");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Set program icon
         String imagePath = "images/Icon.png";
         java.net.URL imgUrl = getClass().getClassLoader().getResource(imagePath);
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage(imgUrl));
