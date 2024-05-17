@@ -15,7 +15,7 @@ public class Sheep extends Animal {
     }
 
     @Override
-    public void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 

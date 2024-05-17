@@ -10,11 +10,11 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GUI extends JPanel {
     private ConcurrentLinkedQueue<Animal> actors;
-    private ArrayList<ArrayList<Tile>> tiles;
+    private ArrayList<ArrayList<TileGrid.Tile>> tiles;
     private JFrame frame;
     private final Map<String, Image> animalImages;
 
-    public GUI(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
+    public GUI(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
         setPreferredSize(new Dimension(800, 800));
@@ -91,7 +91,7 @@ public class GUI extends JPanel {
     }
 
     public void display() {
-        frame = new JFrame("Actor Grid");
+        frame = new JFrame("Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Set program icon
@@ -106,9 +106,18 @@ public class GUI extends JPanel {
         frame.setVisible(true);
     }
 
-    public void update(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
+    public void update(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         this.actors = actors;
         this.tiles = tiles;
         frame.repaint();
+    }
+
+    public void finalMessage(long tickCount, long totalTimeSeconds) {
+        long minutes = totalTimeSeconds / 60;
+        long seconds = totalTimeSeconds % 60;
+
+        String endMessage = String.format("All actors died, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
+        System.out.println(endMessage);
+
     }
 }

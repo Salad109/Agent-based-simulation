@@ -43,12 +43,12 @@ public abstract class Animal {
         return getClass().getSimpleName();
     }
 
-    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         hunt(animals, tiles);
         evaluateFood(animals);
     }
 
-    protected void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    protected void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         int newX = getNewRandomCoordinate(PositionX);
         int newY = getNewRandomCoordinate(PositionY);
 

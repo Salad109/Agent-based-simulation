@@ -34,24 +34,25 @@ public class AgentHandler {
 
 
     private ConcurrentLinkedQueue<Animal> animals;
-    private ArrayList<ArrayList<Tile>> grassGrid;
+    private final TileGrid grid;
 
     public AgentHandler() {
         animalSpawner();
-        grassSpawner();
+        grid = new TileGrid();
+        grid.spawnTiles();
     }
 
     public ConcurrentLinkedQueue<Animal> getAnimals() {
         return animals;
     }
 
-    public ArrayList<ArrayList<Tile>> getTiles() {
-        return grassGrid;
+    public ArrayList<ArrayList<TileGrid.Tile>> getTiles() {
+        return grid.getGrassGrid();
     }
 
     public void nextFrame() {
         animalsAct();
-        tilesAct();
+        grid.tilesAct();
     }
 
     private void animalsAct() {
@@ -59,27 +60,6 @@ public class AgentHandler {
         act(getAnimals());
     }
 
-    private void tilesAct() {
-        for (ArrayList<Tile> row : grassGrid) {
-            for (Tile tile : row) {
-                if (!tile.getGrass())
-                    tile.attemptRegrow();
-            }
-        }
-
-    }
-
-    private void grassSpawner() {
-        grassGrid = new ArrayList<>(20);
-        for (int i = 0; i < Simulation.simulationSize; i++) {
-            ArrayList<Tile> row = new ArrayList<>(20);
-            for (int j = 0; j < Simulation.simulationSize; j++) {
-                Tile tile = new Tile(Simulation.RNG.nextDouble());
-                row.add(tile);
-            }
-            grassGrid.add(row);
-        }
-    }
 
     private void animalSpawner() {
         double startingSpawnRate = 0.25;

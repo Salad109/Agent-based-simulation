@@ -18,7 +18,7 @@ public class Vulture extends Animal {
     }
 
     @Override
-    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         for (int i = 0; i < 20; i++)
             hunt(animals, tiles);
         evaluateFood(animals);

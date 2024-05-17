@@ -15,7 +15,7 @@ public class Carcass extends Animal {
     }
 
     @Override
-    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<Tile>> tiles) {
+    public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         if (decomposingTurns++ >= 30) {
             markedForDeath = true;
             fertilizeSurroundings(tiles);
@@ -23,7 +23,7 @@ public class Carcass extends Animal {
     }
 
     // Upon decomposing, set tiles in 3x3 radius to have grass
-    private void fertilizeSurroundings(ArrayList<ArrayList<Tile>> tiles) {
+    private void fertilizeSurroundings(ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         for (int i = -1; i < 2; i++)
             for (int j = -1; j < 2; j++) {
                 int x = getPositionY() + i;

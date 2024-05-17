@@ -14,13 +14,13 @@ public class Simulation {
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
-        GUI grid = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
+        GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
 
-        runSimulation(agentHandler, grid);
+        runSimulation(agentHandler, gui);
     }
 
-    private static void runSimulation(AgentHandler agentHandler, GUI grid) {
-        grid.display();
+    private static void runSimulation(AgentHandler agentHandler, GUI gui) {
+        gui.display();
         long previousTime = System.currentTimeMillis();
 
         long tickCount = 0;
@@ -29,8 +29,8 @@ public class Simulation {
         do {
             try {
                 agentHandler.nextFrame();
-                grid.revalidate();
-                grid.update(agentHandler.getAnimals(), agentHandler.getTiles());
+                gui.revalidate();
+                gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - previousTime;
@@ -49,11 +49,7 @@ public class Simulation {
         } while (animalCount > 0 && tickCount < tickTarget);
 
         long totalTimeS = Simulation.tickLengthMS * tickCount / 1000;
-        long minutes = totalTimeS / 60;
-        long seconds = totalTimeS % 60;
-
-        String endMessage = String.format("All actors died, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
-        System.out.println(endMessage);
+        gui.finalMessage(tickCount, totalTimeS);
 
         System.exit(0);
     }
