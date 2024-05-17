@@ -12,6 +12,7 @@ public class GUI extends JPanel {
     private ConcurrentLinkedQueue<Animal> actors;
     private ArrayList<ArrayList<Tile>> tiles;
     private JFrame frame;
+    private final Map<String, Image> animalImages;
 
     public GUI(ConcurrentLinkedQueue<Animal> actors, ArrayList<ArrayList<Tile>> tiles) {
         this.actors = actors;
