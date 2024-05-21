@@ -10,15 +10,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public abstract class Animal {
     public int getPositionX() {
-        return PositionX;
+        return positionX;
     }
 
     public int getPositionY() {
-        return PositionY;
+        return positionY;
     }
 
-    protected int PositionX;
-    protected int PositionY;
+    protected int positionX;
+    protected int positionY;
     protected double storedFood;
     public boolean markedForDeath;
     protected LinkedList<String> diet;
@@ -33,8 +33,8 @@ public abstract class Animal {
 
     Animal(int PositionX, int PositionY) {
         Simulation.animalCount += 1;
-        this.PositionX = PositionX;
-        this.PositionY = PositionY;
+        this.positionX = PositionX;
+        this.positionY = PositionY;
         storedFood = 29;
         markedForDeath = false;
     }
@@ -49,8 +49,8 @@ public abstract class Animal {
     }
 
     protected void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        int newX = getNewRandomCoordinate(PositionX);
-        int newY = getNewRandomCoordinate(PositionY);
+        int newX = getNewRandomCoordinate(positionX);
+        int newY = getNewRandomCoordinate(positionY);
 
         int action = lookAtTile(newX, newY, animals);
         if (action == 0) // 0 = Empty tile
@@ -84,8 +84,8 @@ public abstract class Animal {
 
     protected void moveToTile(int newX, int newY) {
         // Update position
-        PositionX = newX;
-        PositionY = newY;
+        positionX = newX;
+        positionY = newY;
     }
 
     private boolean canEat(Animal target) {
@@ -111,8 +111,8 @@ public abstract class Animal {
 
 
     protected void attemptBirth(ConcurrentLinkedQueue<Animal> animals) {
-        int newX = getNewRandomCoordinate(PositionX);
-        int newY = getNewRandomCoordinate(PositionY);
+        int newX = getNewRandomCoordinate(positionX);
+        int newY = getNewRandomCoordinate(positionY);
 
         int action = lookAtTile(newX, newY, animals);
         if (action == 0) {
@@ -153,7 +153,7 @@ public abstract class Animal {
                 newA += 1;
             else if (randomDouble < 2 / 3d)
                 newA -= 1;
-        } while (newA < 0 || newA >= Simulation.simulationSize);
+        } while (newA < 0 || newA >= Simulation.SIMULATION_SIZE);
         return newA;
     }
 

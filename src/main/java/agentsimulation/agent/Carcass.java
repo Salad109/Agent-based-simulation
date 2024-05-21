@@ -28,7 +28,7 @@ public class Carcass extends Animal {
             for (int j = -1; j < 2; j++) {
                 int x = getPositionY() + i;
                 int y = getPositionX() + j;
-                if (x < Simulation.simulationSize && x >= 0 && y < Simulation.simulationSize && y >= 0)
+                if (x < Simulation.SIMULATION_SIZE && x >= 0 && y < Simulation.SIMULATION_SIZE && y >= 0)
                     tiles.get(x).get(y).setGrass(true);
             }
     }

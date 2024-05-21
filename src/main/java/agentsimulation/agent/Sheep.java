@@ -16,15 +16,15 @@ public class Sheep extends Animal {
 
     @Override
     public void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        int newX = getNewRandomCoordinate(PositionX);
-        int newY = getNewRandomCoordinate(PositionY);
+        int newX = getNewRandomCoordinate(positionX);
+        int newY = getNewRandomCoordinate(positionY);
 
         int action = lookAtTile(newX, newY, animals);
         if (action == 0)
             moveToTile(newX, newY);
 
-        if (tiles.get(PositionY).get(PositionX).getGrass()) {
-            tiles.get(PositionY).get(PositionX).setGrass(false);
+        if (tiles.get(positionY).get(positionX).getGrass()) {
+            tiles.get(positionY).get(positionX).setGrass(false);
             storedFood += foodFromEating;
         }
     }

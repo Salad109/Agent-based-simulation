@@ -32,10 +32,10 @@ public class TileGrid {
 
 
     protected void spawnTiles(){
-        grassGrid = new ArrayList<>(Simulation.simulationSize);
-        for (int i = 0; i < Simulation.simulationSize; i++) {
-            ArrayList<Tile> row = new ArrayList<>(Simulation.simulationSize);
-            for (int j = 0; j < Simulation.simulationSize; j++) {
+        grassGrid = new ArrayList<>(Simulation.SIMULATION_SIZE);
+        for (int i = 0; i < Simulation.SIMULATION_SIZE; i++) {
+            ArrayList<Tile> row = new ArrayList<>(Simulation.SIMULATION_SIZE);
+            for (int j = 0; j < Simulation.SIMULATION_SIZE; j++) {
                 Tile tile = new Tile(Simulation.RNG.nextDouble());
                 row.add(tile);
             }

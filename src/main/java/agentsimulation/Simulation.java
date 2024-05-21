@@ -8,9 +8,9 @@ import java.util.logging.*;
 
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
-    public final static int simulationSize = 40;
+    public final static int SIMULATION_SIZE = 40;
     public static int animalCount;
-    private final static int tickLengthMS = 25;
+    private final static int TICK_LENGTH_MS = 25;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
@@ -28,15 +28,22 @@ public class Simulation {
 
         do {
             try {
+                // Simulation actions
                 agentHandler.nextFrame();
                 gui.revalidate();
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
+                // Simulation status printout
+                if (tickCount % 20 == 0) {
+                    System.out.printf("Tick: %5d | ", tickCount);
+                    System.out.println(gui.statusMessage(agentHandler.getAnimals()));
+                }
+
+                // Time tracker
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - previousTime;
-
-                if (elapsedTime < Simulation.tickLengthMS) {
-                    TimeUnit.MILLISECONDS.sleep(Simulation.tickLengthMS - elapsedTime);
+                if (elapsedTime < Simulation.TICK_LENGTH_MS) {
+                    TimeUnit.MILLISECONDS.sleep(Simulation.TICK_LENGTH_MS - elapsedTime);
                 }
 
                 tickCount += 1;
@@ -48,8 +55,8 @@ public class Simulation {
             // Simulation ends when tick target is reached or the last animal is dead
         } while (animalCount > 0 && tickCount < tickTarget);
 
-        long totalTimeS = Simulation.tickLengthMS * tickCount / 1000;
-        gui.finalMessage(tickCount, totalTimeS);
+        long totalTimeS = Simulation.TICK_LENGTH_MS * tickCount / 1000;
+        System.out.println(gui.finalMessage(tickCount, totalTimeS));
 
         System.exit(0);
     }

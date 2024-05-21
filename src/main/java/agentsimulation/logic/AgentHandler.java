@@ -65,8 +65,8 @@ public class AgentHandler {
         double startingSpawnRate = 0.25;
         animals = new ConcurrentLinkedQueue<>();
 
-        for (int i = 0; i < Simulation.simulationSize; i++) {
-            for (int j = 0; j < Simulation.simulationSize; j++) {
+        for (int i = 0; i < Simulation.SIMULATION_SIZE; i++) {
+            for (int j = 0; j < Simulation.SIMULATION_SIZE; j++) {
                 if (startingSpawnRate >= Simulation.RNG.nextDouble()) {
                     double seed = Simulation.RNG.nextDouble();
                     Animal animal;
