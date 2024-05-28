@@ -10,11 +10,12 @@ public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
     public final static int SIMULATION_SIZE = 40;
     public static int animalCount;
-    private final static int TICK_LENGTH_MS = 10;
+    private final static int TICK_LENGTH_MS = 50;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
         GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
+        SwingWorkerRealTime graph = new SwingWorkerRealTime();
 
         runSimulation(agentHandler, gui);
     }
@@ -34,10 +35,10 @@ public class Simulation {
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
                 // Simulation status printout
-                if (tickCount % 10 == 0) {
+                if (tickCount % 25 == 0) {
                     gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
-                    if (tickCount % 50 == 0)
-                        System.out.println((tickCount + ",").concat(gui.statusMessage(agentHandler.getAnimals())));
+                    /*if (tickCount % 50 == 0)
+                        System.out.println((tickCount + ",").concat(gui.statusMessage(agentHandler.getAnimals())));*/
                 }
 
                 // Time tracker
@@ -54,7 +55,7 @@ public class Simulation {
                 logger.log(Level.SEVERE, "Simulation loop interrupted", e);
             }
             // Simulation ends when tick target is reached or the last animal is dead
-        } while (animalCount > 0 && tickCount < tickTarget);
+        } while (animalCount > 5 && tickCount < tickTarget);
 
         long totalTimeS = Simulation.TICK_LENGTH_MS * tickCount / 1000;
         System.out.println(gui.finalMessage(tickCount, totalTimeS));

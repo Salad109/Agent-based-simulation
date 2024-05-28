@@ -16,7 +16,7 @@ public class Carcass extends Animal {
 
     @Override
     public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        if (decomposingTurns++ >= 100) {
+        if (decomposingTurns++ >= 50) {
             markedForDeath = true;
             fertilizeSurroundings(tiles);
         }
