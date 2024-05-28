@@ -5,17 +5,59 @@ import agentsimulation.agent.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.FileWriter;
 import java.net.URL;
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.io.File;
+import java.io.IOException;
 
 public class GUI extends JPanel {
+    public class FileLogger {
+        private String fileName;
+        private File file;
+        private FileWriter writer;
+
+        FileLogger() {
+            fileName = "log.txt";
+            file = new File(fileName);
+            try {
+                if (file.exists()) {
+                    if (file.delete()) {
+                        System.out.println("File deleted: " + fileName);
+                    } else {
+                        System.out.println("Failed to delete the file: " + fileName);
+                    }
+                }
+
+                if (file.createNewFile()) {
+                    System.out.println("File created: " + fileName);
+                } else {
+                    System.out.println("Failed to create the file: " + fileName);
+                }
+
+                writer = new FileWriter(fileName, true);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void logStatus(ConcurrentLinkedQueue<Animal> animals) {
+            try {
+                writer.write(statusMessage(animals).concat("\n"));
+            }catch(IOException e){
+                e.printStackTrace();
+            }
+        }
+    }
+    public FileLogger logger;
     private ConcurrentLinkedQueue<Animal> animals;
     private ArrayList<ArrayList<TileGrid.Tile>> tiles;
     private JFrame frame;
     private final Map<String, Image> animalImages;
 
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
+        logger = new FileLogger();
         this.animals = animals;
         this.tiles = tiles;
         setPreferredSize(new Dimension(800, 800));
@@ -145,7 +187,6 @@ public class GUI extends JPanel {
         String message;
         message = String.format("%3d bears, %3d carcasses, %3d sheep, %3d vultures, %3d wolves",
                 bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
-        //return bearCount + " bears, " + carcassCount + " carcasses, " + sheepCount + " sheep, " + vultureCount + " vultures, " + wolfCount + " wolves";
         return message;
     }
 }
