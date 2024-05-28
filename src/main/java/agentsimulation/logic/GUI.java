@@ -14,13 +14,11 @@ import java.io.IOException;
 
 public class GUI extends JPanel {
     public class FileLogger {
-        private String fileName;
-        private File file;
         private FileWriter writer;
 
         FileLogger() {
-            fileName = "log.txt";
-            file = new File(fileName);
+            String fileName = "log.csv";
+            File file = new File(fileName);
             try {
                 if (file.exists()) {
                     if (file.delete()) {
@@ -37,19 +35,22 @@ public class GUI extends JPanel {
                 }
 
                 writer = new FileWriter(fileName, true);
+                writer.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public void logStatus(ConcurrentLinkedQueue<Animal> animals) {
+        public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
             try {
-                writer.write(statusMessage(animals).concat("\n"));
-            }catch(IOException e){
+                String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
+                writer.write(logMessage);
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
     public FileLogger logger;
     private ConcurrentLinkedQueue<Animal> animals;
     private ArrayList<ArrayList<TileGrid.Tile>> tiles;
@@ -184,9 +185,6 @@ public class GUI extends JPanel {
                     break;
             }
         }
-        String message;
-        message = String.format("%3d bears, %3d carcasses, %3d sheep, %3d vultures, %3d wolves",
-                bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
-        return message;
+        return String.format("%d,%d,%d,%d,%d", bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
     }
 }

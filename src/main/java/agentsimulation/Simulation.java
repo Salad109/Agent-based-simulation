@@ -10,7 +10,7 @@ public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
     public final static int SIMULATION_SIZE = 40;
     public static int animalCount;
-    private final static int TICK_LENGTH_MS = 25;
+    private final static int TICK_LENGTH_MS = 10;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
@@ -34,10 +34,10 @@ public class Simulation {
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
                 // Simulation status printout
-                if (tickCount % 20 == 0) {
+                if (tickCount % 10 == 0) {
                     System.out.printf("Tick: %5d | ", tickCount);
                     System.out.println(gui.statusMessage(agentHandler.getAnimals()));
-                    gui.logger.logStatus(agentHandler.getAnimals());
+                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
                 }
 
                 // Time tracker

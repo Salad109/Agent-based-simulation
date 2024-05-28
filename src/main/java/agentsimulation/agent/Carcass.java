@@ -11,12 +11,12 @@ public class Carcass extends Animal {
 
     public Carcass(int x, int y) {
         super(x, y);
-        decomposingTurns = 10;
+        decomposingTurns = 0;
     }
 
     @Override
     public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        if (decomposingTurns++ >= 30) {
+        if (decomposingTurns++ >= 40) {
             markedForDeath = true;
             fertilizeSurroundings(tiles);
         }
