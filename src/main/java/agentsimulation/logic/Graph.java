@@ -13,13 +13,13 @@ import org.knowm.xchart.XYChart;
 /**
  * Creates a real-time chart using SwingWorker
  */
-public class SwingWorkerRealTime {
+public class Graph {
 
     MySwingWorker mySwingWorker;
     SwingWrapper<XYChart> sw;
     XYChart chart;
 
-    public SwingWorkerRealTime() {
+    public Graph() {
         go();
     }
 
@@ -28,7 +28,7 @@ public class SwingWorkerRealTime {
         // Create Chart
         chart =
                 QuickChart.getChart(
-                        "Real-time population",
+                        "Real-time combined population",
                         "Time",
                         "Population",
                         "randomWalk",
@@ -55,7 +55,7 @@ public class SwingWorkerRealTime {
         }
 
         @Override
-        protected Boolean doInBackground() throws Exception {
+        protected Boolean doInBackground() {
 
             while (!isCancelled()) {
 
@@ -92,8 +92,6 @@ public class SwingWorkerRealTime {
             long start = System.currentTimeMillis();
             long duration = System.currentTimeMillis() - start;
             try {
-                //Thread.sleep(40 - duration); // 40 ms ==> 25fps
-                //Thread.sleep(400 - duration); // 40 ms ==> 2.5fps
                 TimeUnit.MILLISECONDS.sleep(40 - duration);
             } catch (InterruptedException e) {
                 System.out.println("InterruptedException occurred.");

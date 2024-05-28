@@ -15,7 +15,8 @@ public class Simulation {
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
         GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
-        SwingWorkerRealTime graph = new SwingWorkerRealTime();
+        //noinspection unused
+        Graph graph = new Graph();
 
         runSimulation(agentHandler, gui);
     }
@@ -25,7 +26,6 @@ public class Simulation {
         long previousTime = System.currentTimeMillis();
 
         long tickCount = 0;
-        long tickTarget = Long.MAX_VALUE; // TODO demo value
 
         do {
             try {
@@ -37,8 +37,6 @@ public class Simulation {
                 // Simulation status printout
                 if (tickCount % 25 == 0) {
                     gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
-                    /*if (tickCount % 50 == 0)
-                        System.out.println((tickCount + ",").concat(gui.statusMessage(agentHandler.getAnimals())));*/
                 }
 
                 // Time tracker
@@ -54,8 +52,7 @@ public class Simulation {
                 Logger logger = Logger.getLogger("Simulation logger");
                 logger.log(Level.SEVERE, "Simulation loop interrupted", e);
             }
-            // Simulation ends when tick target is reached or the last animal is dead
-        } while (animalCount > 5 && tickCount < tickTarget);
+        } while (animalCount > 5);
 
         long totalTimeS = Simulation.TICK_LENGTH_MS * tickCount / 1000;
         System.out.println(gui.finalMessage(tickCount, totalTimeS));
