@@ -1,6 +1,5 @@
 package agentsimulation.logic;
 
-import java.security.Signature;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -85,7 +84,7 @@ public class SwingWorkerRealTime {
 
         @Override
         protected void process(List<double[]> chunks) {
-            double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
+            double[] mostRecentDataSet = chunks.getLast();
 
             chart.updateXYSeries("randomWalk", null, mostRecentDataSet, null);
             sw.repaintChart();

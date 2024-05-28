@@ -10,7 +10,7 @@ public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
     public final static int SIMULATION_SIZE = 40;
     public static int animalCount;
-    private final static int TICK_LENGTH_MS = 50;
+    private final static int TICK_LENGTH_MS = 25;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
