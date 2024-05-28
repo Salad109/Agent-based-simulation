@@ -35,9 +35,9 @@ public class Simulation {
 
                 // Simulation status printout
                 if (tickCount % 10 == 0) {
-                    System.out.printf("Tick: %5d | ", tickCount);
-                    System.out.println(gui.statusMessage(agentHandler.getAnimals()));
                     gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
+                    if (tickCount % 50 == 0)
+                        System.out.println((tickCount + ",").concat(gui.statusMessage(agentHandler.getAnimals())));
                 }
 
                 // Time tracker

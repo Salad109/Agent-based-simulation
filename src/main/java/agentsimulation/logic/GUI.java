@@ -43,8 +43,10 @@ public class GUI extends JPanel {
 
         public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
             try {
-                String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
-                writer.write(logMessage);
+                if (statusMessage(animals).contains(",")) {
+                    String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
+                    writer.write(logMessage);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
