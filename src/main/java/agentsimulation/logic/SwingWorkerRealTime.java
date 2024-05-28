@@ -30,7 +30,7 @@ public class SwingWorkerRealTime {
         chart =
                 QuickChart.getChart(
                         "Real-time population",
-                        "Ticks",
+                        "Time",
                         "Population",
                         "randomWalk",
                         new double[]{0},
@@ -61,7 +61,7 @@ public class SwingWorkerRealTime {
             while (!isCancelled()) {
 
                 fifo.add((double) Simulation.animalCount);
-                if (fifo.size() > 2000) {
+                if (fifo.size() > 500) {
                     fifo.removeFirst();
                 }
 
@@ -73,7 +73,7 @@ public class SwingWorkerRealTime {
 
                 try {
                     //Thread.sleep(5);
-                    TimeUnit.MILLISECONDS.sleep(5);
+                    TimeUnit.MILLISECONDS.sleep(40);
                 } catch (InterruptedException e) {
                     // eat it. caught when interrupt is called
                     System.out.println("MySwingWorker shut down.");
