@@ -11,7 +11,8 @@ public class Sheep extends Animal {
         super(x, y);
         diet = new LinkedList<>();
 
-        foodBirthThreshold -= 50;
+        foodBirthThreshold -= 75;
+        foodLossPerTurn += 1;
     }
 
     @Override
@@ -19,8 +20,8 @@ public class Sheep extends Animal {
         int newX = getNewRandomCoordinate(positionX);
         int newY = getNewRandomCoordinate(positionY);
 
-        int action = lookAtTile(newX, newY, animals);
-        if (action == 0)
+        String tileStatus = lookAtTile(newX, newY, animals);
+        if (tileStatus.equals("Empty"))
             moveToTile(newX, newY);
 
         if (tiles.get(positionY).get(positionX).getGrass()) {

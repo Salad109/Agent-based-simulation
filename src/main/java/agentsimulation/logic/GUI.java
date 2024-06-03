@@ -22,7 +22,7 @@ public class GUI extends JPanel {
             try {
                 if (file.exists()) {
                     if (file.delete()) {
-                        System.out.println("File deleted: " + fileName);
+                        System.out.println("Old file deleted: " + fileName);
                     } else {
                         System.out.println("Failed to delete the file: " + fileName);
                     }
@@ -162,7 +162,7 @@ public class GUI extends JPanel {
         long minutes = totalTimeSeconds / 60;
         long seconds = totalTimeSeconds % 60;
 
-        return String.format("All animals died, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
+        return String.format("Simulation ended, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
     }
 
     public String statusMessage(ConcurrentLinkedQueue<Animal> animals) {

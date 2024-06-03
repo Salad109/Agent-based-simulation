@@ -1,11 +1,11 @@
 package agentsimulation.logic;
+import agentsimulation.Simulation;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.swing.SwingWorker;
 
-import agentsimulation.Simulation;
 import org.knowm.xchart.QuickChart;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;

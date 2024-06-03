@@ -20,7 +20,7 @@ public class TileGrid {
             return grass;
         }
         public void attemptRegrow(){
-            if(Simulation.RNG.nextDouble() > 0.99)
+            if(Simulation.RNG.nextDouble() > 0.993)
                 grass = true;
         }
     }

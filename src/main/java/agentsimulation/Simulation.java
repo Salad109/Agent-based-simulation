@@ -34,7 +34,7 @@ public class Simulation {
                 gui.revalidate();
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
-                // Simulation status printout
+                // Log simulation status
                 if (tickCount % 25 == 0) {
                     gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
                 }
@@ -45,9 +45,9 @@ public class Simulation {
                 if (elapsedTime < Simulation.TICK_LENGTH_MS) {
                     TimeUnit.MILLISECONDS.sleep(Simulation.TICK_LENGTH_MS - elapsedTime);
                 }
-
                 tickCount += 1;
                 previousTime = currentTime;
+
             } catch (InterruptedException e) {
                 Logger logger = Logger.getLogger("Simulation logger");
                 logger.log(Level.SEVERE, "Simulation loop interrupted", e);

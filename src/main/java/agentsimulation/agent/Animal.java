@@ -52,10 +52,10 @@ public abstract class Animal {
         int newX = getNewRandomCoordinate(positionX);
         int newY = getNewRandomCoordinate(positionY);
 
-        int action = lookAtTile(newX, newY, animals);
-        if (action == 0) // 0 = Empty tile
+        String tileStatus = lookAtTile(newX, newY, animals);
+        if (tileStatus.equals("Empty"))
             moveToTile(newX, newY);
-        else if (action == 2) { // 2 = Target edible
+        else if (tileStatus.equals("Edible")) { // 2 = Target edible
             eatTarget(newX, newY, animals);
             moveToTile(newX, newY);
         }
@@ -70,16 +70,14 @@ public abstract class Animal {
     }
 
     // 2 = Target edible, 1 = Target inedible(tile obstructed), 0 = Empty tile
-    protected int lookAtTile(int newX, int newY, ConcurrentLinkedQueue<Animal> animals) {
+    protected String lookAtTile(int newX, int newY, ConcurrentLinkedQueue<Animal> animals) {
         for (Animal animal : animals) {
             if (animal.getPositionX() == newX && animal.getPositionY() == newY) {
                 if (canEat(animal))
-                    return 2;
-                else
-                    return 1;
+                    return "Edible";
             }
         }
-        return 0;
+        return "Empty";
     }
 
     protected void moveToTile(int newX, int newY) {
@@ -114,8 +112,8 @@ public abstract class Animal {
         int newX = getNewRandomCoordinate(positionX);
         int newY = getNewRandomCoordinate(positionY);
 
-        int action = lookAtTile(newX, newY, animals);
-        if (action == 0) {
+        String tileStatus = lookAtTile(newX, newY, animals);
+        if (tileStatus.equals("Empty")) {
             Animal newborn;
             switch (getSpecies()) {
                 case "Wolf":
