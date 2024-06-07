@@ -2,10 +2,11 @@ package agentsimulation.logic;
 
 import agentsimulation.Simulation;
 import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XChartPanel;
+import org.knowm.xchart.XYChart;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -13,17 +14,17 @@ import java.util.concurrent.TimeUnit;
 /**
  * Creates a real-time chart using SwingWorker
  */
-public class Graph {
+public class Graph extends JPanel {
 
-    private MySwingWorker mySwingWorker;
-    private XYChart chart;
+    MySwingWorker mySwingWorker;
+    XYChart chart;
+    XChartPanel<XYChart> chartPanel;
 
-    public Graph(JPanel chartPanel) {
-        go(chartPanel);
+    public Graph() {
+        initChart();
     }
 
-    private void go(JPanel chartPanel) {
-
+    private void initChart() {
         // Create Chart
         chart = QuickChart.getChart(
                 "Real-time combined population",
@@ -35,10 +36,10 @@ public class Graph {
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setXAxisTicksVisible(false);
 
-        // Create a ChartPanel and add it to the provided JPanel
-        XChartPanel<XYChart> chartPanelComponent = new XChartPanel<>(chart);
-        chartPanel.setLayout(new java.awt.BorderLayout());
-        chartPanel.add(chartPanelComponent, java.awt.BorderLayout.CENTER);
+        // Create and add chart panel
+        chartPanel = new XChartPanel<>(chart);
+        this.setLayout(new BorderLayout());
+        this.add(chartPanel, BorderLayout.CENTER);
 
         mySwingWorker = new MySwingWorker();
         mySwingWorker.execute();
@@ -46,7 +47,7 @@ public class Graph {
 
     private class MySwingWorker extends SwingWorker<Boolean, double[]> {
 
-        final LinkedList<Double> fifo = new LinkedList<>();
+        final LinkedList<Double> fifo = new LinkedList<Double>();
 
         public MySwingWorker() {
             fifo.add((double) Simulation.animalCount);
@@ -54,9 +55,7 @@ public class Graph {
 
         @Override
         protected Boolean doInBackground() {
-
             while (!isCancelled()) {
-
                 fifo.add((double) Simulation.animalCount);
                 if (fifo.size() > 500) {
                     fifo.removeFirst();
@@ -69,23 +68,19 @@ public class Graph {
                 publish(array);
 
                 try {
-                    //Thread.sleep(5);
                     TimeUnit.MILLISECONDS.sleep(40);
                 } catch (InterruptedException e) {
-                    // eat it. caught when interrupt is called
                     System.out.println("MySwingWorker shut down.");
                 }
             }
-
             return true;
         }
 
         @Override
         protected void process(List<double[]> chunks) {
             double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
-
             chart.updateXYSeries("series1", null, mostRecentDataSet, null);
-            // No need to repaint as XChartPanel handles it
+            chartPanel.repaint();
         }
     }
 }

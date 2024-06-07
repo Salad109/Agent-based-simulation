@@ -58,14 +58,16 @@ public class GUI extends JPanel {
     private ArrayList<ArrayList<TileGrid.Tile>> tiles;
     private JFrame frame;
     private final Map<String, Image> animalImages;
+    private Graph graph;
 
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         logger = new FileLogger();
         this.animals = animals;
         this.tiles = tiles;
-        setPreferredSize(new Dimension(800, 800));
+        setPreferredSize(new Dimension(1600, 900));
         animalImages = new HashMap<>();
         loadImages();
+        initGUI();
     }
 
     private void loadImages() {
@@ -87,9 +89,31 @@ public class GUI extends JPanel {
         }
     }
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    private void initGUI() {
+        this.setLayout(new BorderLayout());
+
+        // Create the graph panel
+        graph = new Graph();
+
+        // Create the main simulation panel
+        JPanel simulationPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                drawSimulation(g);
+            }
+        };
+        simulationPanel.setPreferredSize(new Dimension(800, 800));
+
+        // Create a split pane
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, simulationPanel, graph);
+        splitPane.setDividerLocation(900); // Adjust this value as needed
+        splitPane.setResizeWeight(0.75); // Adjust this value as needed
+
+        this.add(splitPane, BorderLayout.CENTER);
+    }
+
+    private void drawSimulation(Graphics g) {
         // Calculate cell size
         int cellSize = Math.min(getWidth(), getHeight()) / Simulation.SIMULATION_SIZE;
 
@@ -125,7 +149,6 @@ public class GUI extends JPanel {
                 g.fillRect(x, y, cellSize, cellSize);
             }
         }
-
 
         // Draw grid lines
         g.setColor(Color.BLACK);
@@ -165,19 +188,19 @@ public class GUI extends JPanel {
         for (Animal animal : animals) {
             String species = animal.getSpecies();
             switch (species) {
-                case ("Bear"):
+                case "Bear":
                     bearCount += 1;
                     break;
-                case ("Carcass"):
+                case "Carcass":
                     carcassCount += 1;
                     break;
-                case ("Sheep"):
+                case "Sheep":
                     sheepCount += 1;
                     break;
-                case ("Vulture"):
+                case "Vulture":
                     vultureCount += 1;
                     break;
-                case ("Wolf"):
+                case "Wolf":
                     wolfCount += 1;
                     break;
             }
