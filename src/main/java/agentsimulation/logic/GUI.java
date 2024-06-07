@@ -5,7 +5,6 @@ import agentsimulation.agent.Animal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,7 +23,6 @@ public class GUI extends JPanel {
 
     public class FileLogger {
         private FileWriter writer;
-        private BufferedWriter bufferedWriter;
 
         FileLogger() {
             String fileName = "log.csv";
@@ -45,22 +43,20 @@ public class GUI extends JPanel {
                 }
 
                 writer = new FileWriter(fileName, true);
-                bufferedWriter = new BufferedWriter(writer);
-                bufferedWriter.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
+                writer.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
         public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
-            try {
-                if (statusMessage(animals).contains(",")) {
+                try {
                     String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
-                    bufferedWriter.write(logMessage);
+                    writer.write(logMessage);
+                    System.out.print(logMessage);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
     }
 
@@ -179,6 +175,7 @@ public class GUI extends JPanel {
         this.tiles = tiles;
         frame.repaint();
     }
+
     public String statusMessage(ConcurrentLinkedQueue<Animal> animals) {
         int bearCount = 0;
         int carcassCount = 0;

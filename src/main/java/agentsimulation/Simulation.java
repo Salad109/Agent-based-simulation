@@ -1,10 +1,12 @@
 package agentsimulation;
 
-import agentsimulation.logic.*;
+import agentsimulation.logic.AgentHandler;
+import agentsimulation.logic.GUI;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
@@ -24,6 +26,7 @@ public class Simulation {
         long previousTime = System.currentTimeMillis();
 
         long tickCount = 0;
+        int logTicks = 0;
 
         do {
             try {
@@ -32,10 +35,14 @@ public class Simulation {
                 gui.revalidate();
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
-                // Log simulation status
-                if (tickCount % 25 == 0) {
+                // Log simulation status every 10 ticks
+                if (logTicks == 0) {
                     gui.logger.logStatus(agentHandler.getAnimals(), tickCount); // TODO FIX LOGGER
+                    logTicks = 9;
+                } else {
+                    logTicks -= 1;
                 }
+
 
                 // Time and tick tracker
                 long currentTime = System.currentTimeMillis();
