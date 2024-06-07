@@ -88,31 +88,5 @@ public class AgentHandler {
         }
     }
 
-    public void recalculatePopulation() {
-        Simulation.bearCount = 0;
-        Simulation.carcassCount = 0;
-        Simulation.sheepCount = 0;
-        Simulation.vultureCount = 0;
-        Simulation.wolfCount = 0;
-        for (Animal animal : animals) {
-            String species = animal.getSpecies();
-            switch (species) {
-                case "Bear":
-                    Simulation.bearCount += 1;
-                    break;
-                case "Carcass":
-                    Simulation.carcassCount += 1;
-                    break;
-                case "Sheep":
-                    Simulation.sheepCount += 1;
-                    break;
-                case "Vulture":
-                    Simulation.vultureCount += 1;
-                    break;
-                case "Wolf":
-                    Simulation.wolfCount += 1;
-                    break;
-            }
-        }
-    }
+
 }

@@ -5,6 +5,7 @@ import agentsimulation.agent.Animal;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -15,8 +16,15 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GUI extends JPanel {
-    public static class FileLogger {
+    public FileLogger logger;
+    private ConcurrentLinkedQueue<Animal> animals;
+    private ArrayList<ArrayList<TileGrid.Tile>> tiles;
+    private JFrame frame;
+    private final Map<String, Image> animalImages;
+
+    public class FileLogger {
         private FileWriter writer;
+        private BufferedWriter bufferedWriter;
 
         FileLogger() {
             String fileName = "log.csv";
@@ -24,7 +32,7 @@ public class GUI extends JPanel {
             try {
                 if (file.exists()) {
                     if (file.delete()) {
-                        System.out.println("Old file deleted: " + fileName);
+                        System.out.println("File deleted: " + fileName);
                     } else {
                         System.out.println("Failed to delete the file: " + fileName);
                     }
@@ -37,31 +45,24 @@ public class GUI extends JPanel {
                 }
 
                 writer = new FileWriter(fileName, true);
-                writer.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
+                bufferedWriter = new BufferedWriter(writer);
+                bufferedWriter.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        public void logStatus(long tickCount) {
-            String statusMessage;
+        public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
             try {
-                statusMessage = String.format("%d,%d,%d,%d,%d", Simulation.bearCount, Simulation.carcassCount, Simulation.sheepCount, Simulation.vultureCount, Simulation.wolfCount);
-                if (statusMessage.contains(",")) {
-                    String logMessage = (tickCount + ",").concat(statusMessage.concat("\n"));
-                    writer.write(logMessage);
+                if (statusMessage(animals).contains(",")) {
+                    String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
+                    bufferedWriter.write(logMessage);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
-    public FileLogger logger;
-    private ConcurrentLinkedQueue<Animal> animals;
-    private ArrayList<ArrayList<TileGrid.Tile>> tiles;
-    private JFrame frame;
-    private final Map<String, Image> animalImages;
 
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         logger = new FileLogger();
@@ -177,5 +178,33 @@ public class GUI extends JPanel {
         this.animals = animals;
         this.tiles = tiles;
         frame.repaint();
+    }
+    public String statusMessage(ConcurrentLinkedQueue<Animal> animals) {
+        int bearCount = 0;
+        int carcassCount = 0;
+        int sheepCount = 0;
+        int vultureCount = 0;
+        int wolfCount = 0;
+        for (Animal animal : animals) {
+            String species = animal.getSpecies();
+            switch (species) {
+                case "Bear":
+                    bearCount += 1;
+                    break;
+                case "Carcass":
+                    carcassCount += 1;
+                    break;
+                case "Sheep":
+                    sheepCount += 1;
+                    break;
+                case "Vulture":
+                    vultureCount += 1;
+                    break;
+                case "Wolf":
+                    wolfCount += 1;
+                    break;
+            }
+        }
+        return String.format("%d,%d,%d,%d,%d", bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
     }
 }

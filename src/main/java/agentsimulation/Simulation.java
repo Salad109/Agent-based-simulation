@@ -8,14 +8,9 @@ import java.util.logging.*;
 
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
-    public final static int SIMULATION_SIZE = 50;
+    public final static int SIMULATION_SIZE = 10;
     public static int animalCount;
-    public static int bearCount;
-    public static int carcassCount;
-    public static int sheepCount;
-    public static int vultureCount;
-    public static int wolfCount;
-    private final static int TICK_LENGTH_MS = 50;
+    private final static int TICK_LENGTH_MS = 25;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
@@ -39,8 +34,7 @@ public class Simulation {
 
                 // Log simulation status
                 if (tickCount % 25 == 0) {
-                    agentHandler.recalculatePopulation();
-                    gui.logger.logStatus(tickCount);
+                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount); // TODO FIX LOGGER
                 }
 
                 // Time and tick tracker
