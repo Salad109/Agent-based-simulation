@@ -1,19 +1,21 @@
 package agentsimulation.logic;
 
 import agentsimulation.Simulation;
-import agentsimulation.agent.*;
+import agentsimulation.agent.Animal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.FileWriter;
-import java.net.URL;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GUI extends JPanel {
-    public class FileLogger {
+    public static class FileLogger {
         private FileWriter writer;
 
         FileLogger() {
@@ -41,10 +43,12 @@ public class GUI extends JPanel {
             }
         }
 
-        public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
+        public void logStatus(long tickCount) {
+            String statusMessage;
             try {
-                if (statusMessage(animals).contains(",")) {
-                    String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
+                statusMessage = String.format("%d,%d,%d,%d,%d", Simulation.bearCount, Simulation.carcassCount, Simulation.sheepCount, Simulation.vultureCount, Simulation.wolfCount);
+                if (statusMessage.contains(",")) {
+                    String logMessage = (tickCount + ",").concat(statusMessage.concat("\n"));
                     writer.write(logMessage);
                 }
             } catch (IOException e) {
@@ -58,7 +62,6 @@ public class GUI extends JPanel {
     private ArrayList<ArrayList<TileGrid.Tile>> tiles;
     private JFrame frame;
     private final Map<String, Image> animalImages;
-    private Graph graph;
 
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         logger = new FileLogger();
@@ -93,7 +96,7 @@ public class GUI extends JPanel {
         this.setLayout(new BorderLayout());
 
         // Create the graph panel
-        graph = new Graph();
+        Graph graph = new Graph();
 
         // Create the main simulation panel
         JPanel simulationPanel = new JPanel() {
@@ -174,37 +177,5 @@ public class GUI extends JPanel {
         this.animals = animals;
         this.tiles = tiles;
         frame.repaint();
-    }
-
-    public String finalMessage(long tickCount, long totalTimeSeconds) {
-        long minutes = totalTimeSeconds / 60;
-        long seconds = totalTimeSeconds % 60;
-
-        return String.format("Simulation ended, %d ticks have passed, or %d:%2d", tickCount, minutes, seconds);
-    }
-
-    public String statusMessage(ConcurrentLinkedQueue<Animal> animals) {
-        int bearCount = 0, carcassCount = 0, sheepCount = 0, vultureCount = 0, wolfCount = 0;
-        for (Animal animal : animals) {
-            String species = animal.getSpecies();
-            switch (species) {
-                case "Bear":
-                    bearCount += 1;
-                    break;
-                case "Carcass":
-                    carcassCount += 1;
-                    break;
-                case "Sheep":
-                    sheepCount += 1;
-                    break;
-                case "Vulture":
-                    vultureCount += 1;
-                    break;
-                case "Wolf":
-                    wolfCount += 1;
-                    break;
-            }
-        }
-        return String.format("%d,%d,%d,%d,%d", bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
     }
 }

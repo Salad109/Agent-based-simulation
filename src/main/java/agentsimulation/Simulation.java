@@ -10,13 +10,16 @@ public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
     public final static int SIMULATION_SIZE = 50;
     public static int animalCount;
-    private final static int TICK_LENGTH_MS = 25;
+    public static int bearCount;
+    public static int carcassCount;
+    public static int sheepCount;
+    public static int vultureCount;
+    public static int wolfCount;
+    private final static int TICK_LENGTH_MS = 50;
 
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
         GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
-        //noinspection unused
-        Graph graph = new Graph();
 
         runSimulation(agentHandler, gui);
     }
@@ -36,10 +39,11 @@ public class Simulation {
 
                 // Log simulation status
                 if (tickCount % 25 == 0) {
-                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
+                    agentHandler.recalculatePopulation();
+                    gui.logger.logStatus(tickCount);
                 }
 
-                // Time tracker
+                // Time and tick tracker
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - previousTime;
                 if (elapsedTime < Simulation.TICK_LENGTH_MS) {
@@ -54,11 +58,9 @@ public class Simulation {
             }
         } while (animalCount > 5);
 
-        long totalTimeS = Simulation.TICK_LENGTH_MS * tickCount / 1000;
-        System.out.println(gui.finalMessage(tickCount, totalTimeS));
+        System.out.printf("Simulation ended, %d ticks have passed.%n", tickCount);
 
         System.exit(0);
     }
 
 }
-

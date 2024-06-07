@@ -78,7 +78,7 @@ public class Graph extends JPanel {
 
         @Override
         protected void process(List<double[]> chunks) {
-            double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
+            double[] mostRecentDataSet = chunks.getLast();
             chart.updateXYSeries("series1", null, mostRecentDataSet, null);
             chartPanel.repaint();
         }
