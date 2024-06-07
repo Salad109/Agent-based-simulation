@@ -140,11 +140,6 @@ public class GUI extends JPanel {
         frame = new JFrame("Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Set program icon
-        String imagePath = "images/Bear.png";
-        URL imgUrl = getClass().getClassLoader().getResource(imagePath);
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(imgUrl));
-
         frame.add(this);
 
         frame.pack();

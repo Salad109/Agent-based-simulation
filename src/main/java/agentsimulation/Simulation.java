@@ -8,7 +8,7 @@ import java.util.logging.*;
 
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
-    public final static int SIMULATION_SIZE = 40;
+    public final static int SIMULATION_SIZE = 50;
     public static int animalCount;
     private final static int TICK_LENGTH_MS = 25;
 

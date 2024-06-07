@@ -1,45 +1,44 @@
 package agentsimulation.logic;
-import agentsimulation.Simulation;
 
+import agentsimulation.Simulation;
+import org.knowm.xchart.QuickChart;
+import org.knowm.xchart.XYChart;
+import org.knowm.xchart.XChartPanel;
+
+import javax.swing.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.swing.SwingWorker;
-
-import org.knowm.xchart.QuickChart;
-import org.knowm.xchart.SwingWrapper;
-import org.knowm.xchart.XYChart;
 
 /**
  * Creates a real-time chart using SwingWorker
  */
 public class Graph {
 
-    MySwingWorker mySwingWorker;
-    SwingWrapper<XYChart> sw;
-    XYChart chart;
+    private MySwingWorker mySwingWorker;
+    private XYChart chart;
 
-    public Graph() {
-        go();
+    public Graph(JPanel chartPanel) {
+        go(chartPanel);
     }
 
-    private void go() {
+    private void go(JPanel chartPanel) {
 
         // Create Chart
-        chart =
-                QuickChart.getChart(
-                        "Real-time combined population",
-                        "Time",
-                        "Population",
-                        "randomWalk",
-                        new double[]{0},
-                        new double[]{0});
+        chart = QuickChart.getChart(
+                "Real-time combined population",
+                "Time",
+                "Population",
+                "series1",
+                new double[]{0},
+                new double[]{0});
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setXAxisTicksVisible(false);
 
-        // Show it
-        sw = new SwingWrapper<XYChart>(chart);
-        sw.displayChart();
+        // Create a ChartPanel and add it to the provided JPanel
+        XChartPanel<XYChart> chartPanelComponent = new XChartPanel<>(chart);
+        chartPanel.setLayout(new java.awt.BorderLayout());
+        chartPanel.add(chartPanelComponent, java.awt.BorderLayout.CENTER);
 
         mySwingWorker = new MySwingWorker();
         mySwingWorker.execute();
@@ -47,10 +46,9 @@ public class Graph {
 
     private class MySwingWorker extends SwingWorker<Boolean, double[]> {
 
-        final LinkedList<Double> fifo = new LinkedList<Double>();
+        final LinkedList<Double> fifo = new LinkedList<>();
 
         public MySwingWorker() {
-
             fifo.add((double) Simulation.animalCount);
         }
 
@@ -84,18 +82,10 @@ public class Graph {
 
         @Override
         protected void process(List<double[]> chunks) {
-            double[] mostRecentDataSet = chunks.getLast();
+            double[] mostRecentDataSet = chunks.get(chunks.size() - 1);
 
-            chart.updateXYSeries("randomWalk", null, mostRecentDataSet, null);
-            sw.repaintChart();
-
-            long start = System.currentTimeMillis();
-            long duration = System.currentTimeMillis() - start;
-            try {
-                TimeUnit.MILLISECONDS.sleep(40 - duration);
-            } catch (InterruptedException e) {
-                System.out.println("InterruptedException occurred.");
-            }
+            chart.updateXYSeries("series1", null, mostRecentDataSet, null);
+            // No need to repaint as XChartPanel handles it
         }
     }
 }
