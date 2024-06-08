@@ -92,10 +92,8 @@ public class GUI extends JPanel {
     private void initGUI() {
         this.setLayout(new BorderLayout());
 
-        // Create the graph panel
         Graph graph = new Graph();
 
-        // Create the main simulation panel
         JPanel simulationPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -105,10 +103,8 @@ public class GUI extends JPanel {
         };
         simulationPanel.setPreferredSize(new Dimension(800, 800));
 
-        // Create a split pane
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, simulationPanel, graph);
-        splitPane.setDividerLocation(900); // Adjust this value as needed
-        splitPane.setResizeWeight(0.75); // Adjust this value as needed
+        splitPane.setDividerLocation(900);
 
         this.add(splitPane, BorderLayout.CENTER);
     }

@@ -8,7 +8,10 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class AgentHandler {
-
+    /**
+     *
+     * @param animals
+     */
     private void killAllMarked(ConcurrentLinkedQueue<Animal> animals) {
         Iterator<Animal> it = animals.iterator();
         while (it.hasNext()) {

@@ -8,9 +8,12 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * Main class of the simulation
+ */
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
-    public final static int SIMULATION_SIZE = 10;
+    public final static int SIMULATION_SIZE = 50;
     public static int animalCount;
     private final static int TICK_LENGTH_MS = 25;
 
@@ -26,7 +29,6 @@ public class Simulation {
         long previousTime = System.currentTimeMillis();
 
         long tickCount = 0;
-        int logTicks = 0;
 
         do {
             try {
@@ -36,12 +38,8 @@ public class Simulation {
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
                 // Log simulation status every 10 ticks
-                if (logTicks == 0) {
-                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount); // TODO FIX LOGGER
-                    logTicks = 9;
-                } else {
-                    logTicks -= 1;
-                }
+                if (tickCount % 5 == 0 && tickCount % 2 == 0)
+                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
 
 
                 // Time and tick tracker

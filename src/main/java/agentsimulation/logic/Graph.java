@@ -11,9 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-/**
- * Creates a real-time chart using SwingWorker
- */
 public class Graph extends JPanel {
 
     MySwingWorker mySwingWorker;

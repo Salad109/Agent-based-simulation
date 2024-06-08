@@ -17,8 +17,8 @@ public class Sheep extends Animal {
 
     @Override
     public void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        int newX = getNewRandomCoordinate(positionX);
-        int newY = getNewRandomCoordinate(positionY);
+        int newX = generateNewRandomCoordinate(positionX);
+        int newY = generateNewRandomCoordinate(positionY);
 
         String tileStatus = lookAtTile(newX, newY, animals);
         if (tileStatus.equals("Empty"))
