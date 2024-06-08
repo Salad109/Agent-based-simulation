@@ -1,6 +1,7 @@
 package agentsimulation;
 
 import agentsimulation.logic.AgentHandler;
+import agentsimulation.logic.FileLogger;
 import agentsimulation.logic.GUI;
 
 import java.util.Random;
@@ -27,6 +28,7 @@ public class Simulation {
     private static void runSimulation(AgentHandler agentHandler, GUI gui) {
         gui.display();
         long previousTime = System.currentTimeMillis();
+        FileLogger fileLogger = new FileLogger();
 
         long tickCount = 0;
 
@@ -39,7 +41,7 @@ public class Simulation {
 
                 // Log simulation status every 10 ticks
                 if (tickCount % 5 == 0 && tickCount % 2 == 0)
-                    gui.logger.logStatus(agentHandler.getAnimals(), tickCount);
+                    fileLogger.logStatus(agentHandler.getAnimals(), tickCount);
 
 
                 // Time and tick tracker

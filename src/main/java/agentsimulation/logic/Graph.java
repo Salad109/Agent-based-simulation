@@ -11,6 +11,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Real-time chart displaying the combined population
+ */
 public class Graph extends JPanel {
 
     MySwingWorker mySwingWorker;

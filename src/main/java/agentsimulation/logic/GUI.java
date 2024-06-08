@@ -5,63 +5,22 @@ import agentsimulation.agent.Animal;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Main class responsible for the visual display of the simulation
+ */
 public class GUI extends JPanel {
-    public FileLogger logger;
     private ConcurrentLinkedQueue<Animal> animals;
     private ArrayList<ArrayList<TileGrid.Tile>> tiles;
     private JFrame frame;
     private final Map<String, Image> animalImages;
 
-    public class FileLogger {
-        private FileWriter writer;
-
-        FileLogger() {
-            String fileName = "log.csv";
-            File file = new File(fileName);
-            try {
-                if (file.exists()) {
-                    if (file.delete()) {
-                        System.out.println("File deleted: " + fileName);
-                    } else {
-                        System.out.println("Failed to delete the file: " + fileName);
-                    }
-                }
-
-                if (file.createNewFile()) {
-                    System.out.println("File created: " + fileName);
-                } else {
-                    System.out.println("Failed to create the file: " + fileName);
-                }
-
-                writer = new FileWriter(fileName, true);
-                writer.write("Ticks,Bears,Carcasses,Sheep,Vultures,Wolves\n");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        public void logStatus(ConcurrentLinkedQueue<Animal> animals, long tickCount) {
-                try {
-                    String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
-                    writer.write(logMessage);
-                    System.out.print(logMessage);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-    }
-
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
-        logger = new FileLogger();
         this.animals = animals;
         this.tiles = tiles;
         setPreferredSize(new Dimension(1600, 900));
@@ -70,6 +29,9 @@ public class GUI extends JPanel {
         initGUI();
     }
 
+    /**
+     * Load the icons of the different animal species
+     */
     private void loadImages() {
         ArrayList<String> animalTypes = new ArrayList<>();
         animalTypes.add("Sheep");
@@ -89,6 +51,9 @@ public class GUI extends JPanel {
         }
     }
 
+    /**
+     * Set up the grid and the graph in split-screen
+     */
     private void initGUI() {
         this.setLayout(new BorderLayout());
 
@@ -172,32 +137,5 @@ public class GUI extends JPanel {
         frame.repaint();
     }
 
-    public String statusMessage(ConcurrentLinkedQueue<Animal> animals) {
-        int bearCount = 0;
-        int carcassCount = 0;
-        int sheepCount = 0;
-        int vultureCount = 0;
-        int wolfCount = 0;
-        for (Animal animal : animals) {
-            String species = animal.getSpecies();
-            switch (species) {
-                case "Bear":
-                    bearCount += 1;
-                    break;
-                case "Carcass":
-                    carcassCount += 1;
-                    break;
-                case "Sheep":
-                    sheepCount += 1;
-                    break;
-                case "Vulture":
-                    vultureCount += 1;
-                    break;
-                case "Wolf":
-                    wolfCount += 1;
-                    break;
-            }
-        }
-        return String.format("%d,%d,%d,%d,%d", bearCount, carcassCount, sheepCount, vultureCount, wolfCount);
-    }
+
 }
