@@ -35,6 +35,7 @@ public abstract class Animal {
         Simulation.animalCount += 1;
         this.positionX = PositionX;
         this.positionY = PositionY;
+        diet = new LinkedList<>();
         storedFood = 100;
         markedForDeath = false;
     }

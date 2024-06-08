@@ -44,7 +44,7 @@ public class Graph extends JPanel {
 
     private class MySwingWorker extends SwingWorker<Boolean, double[]> {
 
-        final LinkedList<Double> fifo = new LinkedList<Double>();
+        final LinkedList<Double> fifo = new LinkedList<>();
 
         public MySwingWorker() {
             fifo.add((double) Simulation.animalCount);

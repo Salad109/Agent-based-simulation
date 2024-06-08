@@ -7,10 +7,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+/**
+ * Class responsible for managing the animals and the tiles
+ */
 public class AgentHandler {
     /**
-     *
-     * @param animals
+     * Removes all animals marked for death from the simulations
+     * @param animals Animal list
      */
     private void killAllMarked(ConcurrentLinkedQueue<Animal> animals) {
         Iterator<Animal> it = animals.iterator();
@@ -29,8 +32,11 @@ public class AgentHandler {
         }
     }
 
-
-    private void act(ConcurrentLinkedQueue<Animal> animals) {
+    /**
+     * Iterates through all animals and makes them carry out their turn
+     * @param animals Animal list
+     */
+    private void actOnAnimals(ConcurrentLinkedQueue<Animal> animals) {
         for (Animal animal : animals) {
             animal.act(getAnimals(), getTiles());
         }
@@ -61,7 +67,7 @@ public class AgentHandler {
 
     private void animalsAct() {
         killAllMarked(getAnimals());
-        act(getAnimals());
+        actOnAnimals(getAnimals());
     }
 
 

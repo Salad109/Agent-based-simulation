@@ -3,7 +3,6 @@ package agentsimulation.agent;
 import agentsimulation.logic.*;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static agentsimulation.Simulation.RNG;
@@ -11,7 +10,6 @@ import static agentsimulation.Simulation.RNG;
 public class Vulture extends Animal {
     public Vulture(int x, int y) {
         super(x, y);
-        diet = new LinkedList<>();
         diet.add("Carcass");
 
         foodBirthThreshold += 100;
