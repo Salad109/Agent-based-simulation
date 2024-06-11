@@ -23,7 +23,7 @@ public class GUI extends JPanel {
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         this.animals = animals;
         this.tiles = tiles;
-        setPreferredSize(new Dimension(1600, 900));
+        setPreferredSize(new Dimension(1400, 800));
         animalImages = new HashMap<>();
         loadImages();
         initGUI();
@@ -69,7 +69,7 @@ public class GUI extends JPanel {
         simulationPanel.setPreferredSize(new Dimension(800, 800));
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, simulationPanel, graph);
-        splitPane.setDividerLocation(900);
+        splitPane.setDividerLocation(800);
 
         this.add(splitPane, BorderLayout.CENTER);
     }

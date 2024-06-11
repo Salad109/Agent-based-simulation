@@ -44,6 +44,11 @@ public abstract class Animal {
         return getClass().getSimpleName();
     }
 
+    /**
+     * Perform one full turn: move, potentially eat a target, then evaluate its food reserves
+     * @param animals Animal list
+     * @param tiles Tile grid
+     */
     public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         hunt(animals, tiles);
         evaluateFood(animals);
@@ -82,7 +87,7 @@ public abstract class Animal {
 
     /**
      * @param newX X coordinate of the tile to be analyzed
-     * @param newY X coordinate of the tile to be analyzed
+     * @param newY Y coordinate of the tile to be analyzed
      * @param animals Animal list
      * @return "Edible" if the animal which inhabits the target tile is deemed edible by the function's caller. Returns "Empty" otherwise
      */

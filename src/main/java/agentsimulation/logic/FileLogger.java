@@ -47,7 +47,7 @@ public class FileLogger {
         try {
             String logMessage = (tickCount + ",").concat(statusMessage(animals).concat("\n"));
             writer.write(logMessage);
-            System.out.print(logMessage);
+            //System.out.print(logMessage);
         } catch (IOException e) {
             e.printStackTrace();
         }

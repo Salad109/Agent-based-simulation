@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Real-time chart displaying the combined population
+ * Real-time chart displaying the combined population. Code based on the example real-time chart provided by XChart
  */
 public class Graph extends JPanel {
 
@@ -40,6 +40,7 @@ public class Graph extends JPanel {
         chartPanel = new XChartPanel<>(chart);
         this.setLayout(new BorderLayout());
         this.add(chartPanel, BorderLayout.CENTER);
+        this.setPreferredSize(new Dimension(800, 800));
 
         mySwingWorker = new MySwingWorker();
         mySwingWorker.execute();

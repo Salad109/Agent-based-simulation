@@ -21,25 +21,24 @@ public class Simulation {
     public static void main(String[] args) {
         AgentHandler agentHandler = new AgentHandler();
         GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
+        FileLogger fileLogger = new FileLogger();
 
-        runSimulation(agentHandler, gui);
+        runSimulation(agentHandler, gui, fileLogger);
     }
 
-    private static void runSimulation(AgentHandler agentHandler, GUI gui) {
+    private static void runSimulation(AgentHandler agentHandler, GUI gui, FileLogger fileLogger) {
         gui.display();
         long previousTime = System.currentTimeMillis();
-        FileLogger fileLogger = new FileLogger();
 
         long tickCount = 0;
 
         do {
             try {
-                // Simulation actions
+                // Progress simulation and update the display
                 agentHandler.nextFrame();
-                gui.revalidate();
                 gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
 
-                // Log simulation status every 10 ticks
+                // Write simulation status to log.csv every 10 ticks
                 if (tickCount % 5 == 0 && tickCount % 2 == 0)
                     fileLogger.logStatus(agentHandler.getAnimals(), tickCount);
 

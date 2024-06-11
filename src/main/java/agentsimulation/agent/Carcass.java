@@ -22,7 +22,10 @@ public class Carcass extends Animal {
         }
     }
 
-    // Upon decomposing, set tiles in 3x3 radius to have grass
+    /**
+     * Upon decomposing, set tiles in 3x3 radius to have grass
+     * @param tiles Tile grid
+     */
     private void fertilizeSurroundings(ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         for (int i = -1; i < 2; i++)
             for (int j = -1; j < 2; j++) {
