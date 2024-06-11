@@ -11,7 +11,7 @@ import java.util.logging.Logger;
 
 /**
  * Main class of the simulation
- * https://github.com/Salad109/Agent-based-simulation
+ * <a href="https://github.com/Salad109/Agent-based-simulation">Github repository</a>
  */
 public class Simulation {
     public static Random RNG = new Random(System.currentTimeMillis());
