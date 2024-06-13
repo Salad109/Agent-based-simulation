@@ -75,7 +75,6 @@ public class GUI extends JPanel {
     }
 
     private void drawSimulation(Graphics g) {
-        // Calculate cell size
         int cellSize = Math.min(getWidth(), getHeight()) / Simulation.SIMULATION_SIZE;
 
         // Draw grass

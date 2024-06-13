@@ -25,7 +25,6 @@ public class Graph extends JPanel {
     }
 
     private void initChart() {
-        // Create Chart
         chart = QuickChart.getChart(
                 "Real-time combined population",
                 "Time",
@@ -36,7 +35,6 @@ public class Graph extends JPanel {
         chart.getStyler().setLegendVisible(false);
         chart.getStyler().setXAxisTicksVisible(false);
 
-        // Create and add chart panel
         chartPanel = new XChartPanel<>(chart);
         this.setLayout(new BorderLayout());
         this.add(chartPanel, BorderLayout.CENTER);
