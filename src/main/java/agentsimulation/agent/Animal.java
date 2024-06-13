@@ -30,7 +30,6 @@ public abstract class Animal {
     protected double foodBirthThreshold = 250;
 
 
-
     Animal(int PositionX, int PositionY) {
         Simulation.animalCount += 1;
         this.positionX = PositionX;
@@ -46,8 +45,9 @@ public abstract class Animal {
 
     /**
      * Perform one full turn: move, potentially eat a target, then evaluate its food reserves
+     *
      * @param animals Animal list
-     * @param tiles Tile grid
+     * @param tiles   Tile grid
      */
     public void act(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         hunt(animals, tiles);
@@ -56,8 +56,9 @@ public abstract class Animal {
 
     /**
      * Randomly moves to a new, neighboring tile. Will eat the animal inhabiting the new tile if it matches its diet
+     *
      * @param animals Animal list
-     * @param tiles Tile grid
+     * @param tiles   Tile grid
      */
     protected void hunt(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         int newX = generateNewRandomCoordinate(positionX);
@@ -75,6 +76,7 @@ public abstract class Animal {
 
     /**
      * Makes an action depending on its food reserve value. Attempts birth if stored food is high, or marks itself for deletion if it's negative
+     *
      * @param animals Animal list
      */
     protected void evaluateFood(ConcurrentLinkedQueue<Animal> animals) {
@@ -86,8 +88,8 @@ public abstract class Animal {
     }
 
     /**
-     * @param newX X coordinate of the tile to be analyzed
-     * @param newY Y coordinate of the tile to be analyzed
+     * @param newX    X coordinate of the tile to be analyzed
+     * @param newY    Y coordinate of the tile to be analyzed
      * @param animals Animal list
      * @return "Edible" if the animal which inhabits the target tile is deemed edible by the function's caller. Returns "Empty" otherwise
      */
@@ -120,6 +122,7 @@ public abstract class Animal {
 
     /**
      * Removes the instance of the animal inhabiting the target tile, then adds a certain amount of food to the killer.
+     *
      * @param targetX X coordinate of the animal to be eaten
      * @param targetY Y coordinate of the animal to be eaten
      * @param animals Animal list
@@ -139,6 +142,7 @@ public abstract class Animal {
 
     /**
      * Looks in a random direction, and if the target tile is empty - creates a new instance of its species on the target tile
+     *
      * @param animals Animal list
      */
     protected void attemptBirth(ConcurrentLinkedQueue<Animal> animals) {
@@ -148,28 +152,25 @@ public abstract class Animal {
         String tileStatus = lookAtTile(newX, newY, animals);
         if (tileStatus.equals("Empty")) {
             Animal newborn;
-            switch (getSpecies()) {
-                case "Wolf":
+            switch (this) {
+                case Wolf ignored -> {
                     newborn = new Wolf(newX, newY);
                     animals.add(newborn);
-                    break;
-
-                case "Bear":
+                }
+                case Bear ignored -> {
                     newborn = new Bear(newX, newY);
                     animals.add(newborn);
-                    break;
-
-                case "Vulture":
+                }
+                case Vulture ignored -> {
                     newborn = new Vulture(newX, newY);
                     animals.add(newborn);
-                    break;
-
-                case "Sheep":
+                }
+                case Sheep ignored -> {
                     newborn = new Sheep(newX, newY);
                     animals.add(newborn);
-                    break;
-
-                default:
+                }
+                default -> {
+                }
             }
         }
     }
@@ -178,6 +179,7 @@ public abstract class Animal {
     /**
      * Get a new, neighboring coordinate value based on random chance. 33% chance to get a value that's lower by 1, 33% (...) higher, and 33% to return the input untouched.
      * Makes sure that the returned value is within bounds of the simulation size.
+     *
      * @param oldCoordinate The coordinate which will be used to generate the new, neighboring one
      * @return New, neighboring coordinate value
      */

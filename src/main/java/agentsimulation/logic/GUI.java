@@ -23,7 +23,6 @@ public class GUI extends JPanel {
     public GUI(ConcurrentLinkedQueue<Animal> animals, ArrayList<ArrayList<TileGrid.Tile>> tiles) {
         this.animals = animals;
         this.tiles = tiles;
-        setPreferredSize(new Dimension(1400, 800));
         animalImages = new HashMap<>();
         loadImages();
         initGUI();
@@ -66,16 +65,15 @@ public class GUI extends JPanel {
                 drawSimulation(g);
             }
         };
-        simulationPanel.setPreferredSize(new Dimension(800, 800));
+        simulationPanel.setPreferredSize(new Dimension(700, 700));
 
-        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, simulationPanel, graph);
-        splitPane.setDividerLocation(800);
-
-        this.add(splitPane, BorderLayout.CENTER);
+        JPanel splitPane = new JPanel(new BorderLayout() );
+        splitPane.add(simulationPanel, BorderLayout.WEST);
+        splitPane.add(graph, BorderLayout.EAST);
+        this.add(splitPane);
     }
 
     private void drawSimulation(Graphics g) {
-        // Calculate cell size
         int cellSize = Math.min(getWidth(), getHeight()) / Simulation.SIMULATION_SIZE;
 
         // Draw grass
@@ -123,10 +121,10 @@ public class GUI extends JPanel {
     public void display() {
         frame = new JFrame("Simulation");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
         frame.add(this);
 
         frame.pack();
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
