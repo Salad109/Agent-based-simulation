@@ -16,6 +16,15 @@ public class GUIThread implements Runnable {
     }
 
     public void run() {
-        gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
+        do {
+            synchronized (this) {
+                gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
+                try {
+                    wait(Simulation.TICK_LENGTH_MS);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        } while (Simulation.animalCount > 5);
     }
 }
