@@ -1,8 +1,6 @@
 package agentsimulation;
 
-import agentsimulation.logic.AgentHandler;
 import agentsimulation.logic.FileLogger;
-import agentsimulation.logic.GUI;
 
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +11,7 @@ import java.util.logging.Logger;
  * Main class of the simulation
  * <a href="https://github.com/Salad109/Agent-based-simulation">Github repository</a>
  */
+
 public class Simulation {
     public static final Random RNG = new Random(System.currentTimeMillis());
     public static final int SIMULATION_SIZE = 50;
@@ -20,28 +19,31 @@ public class Simulation {
     private static final int TICK_LENGTH_MS = 25;
 
     public static void main(String[] args) {
-        AgentHandler agentHandler = new AgentHandler();
-        GUI gui = new GUI(agentHandler.getAnimals(), agentHandler.getTiles());
+        SimulationThread simulationThread = new SimulationThread();
+
+        GUIThread guiThread = new GUIThread(simulationThread.getAgentHandler());
+
         FileLogger fileLogger = new FileLogger();
 
-        runSimulation(agentHandler, gui, fileLogger);
+        runSimulation(simulationThread, guiThread, fileLogger);
     }
 
-    private static void runSimulation(AgentHandler agentHandler, GUI gui, FileLogger fileLogger) {
-        gui.display();
+    private static void runSimulation(SimulationThread simulationThread, GUIThread guiThread, FileLogger fileLogger) {
         long previousTime = System.currentTimeMillis();
         long tickCount = 0;
 
         do {
             try {
                 // Progress simulation and update the display
-                agentHandler.nextFrame();
-                gui.update(agentHandler.getAnimals(), agentHandler.getTiles());
+                simulationThread.run();
+                guiThread.run();
 
                 // Log simulation status every 10 ticks
                 if (tickCount % 10 == 0) {
-                    fileLogger.logStatus(agentHandler.getAnimals(), tickCount);
+                    fileLogger.logStatus(simulationThread.getAgentHandler().getAnimals(), tickCount);
                 }
+                if (tickCount % 1000 == 0)
+                    System.out.println(Thread.getAllStackTraces());
 
                 // Time and tick tracker
                 long currentTime = System.currentTimeMillis();
