@@ -5,9 +5,10 @@ import agentsimulation.logic.AgentHandler;
 public class SimulationThread implements Runnable {
 
     AgentHandler agentHandler;
+    public Thread thread;
 
     SimulationThread() {
-        Thread t = new Thread(this, "The Simulation Thread");
+        thread = new Thread(this, "The Simulation Thread");
         this.agentHandler = new AgentHandler();
     }
 

@@ -35,8 +35,8 @@ public class Simulation {
         do {
             try {
                 // Progress simulation and update the display
-                simulationThread.run();
-                guiThread.run();
+                simulationThread.thread.start();
+                guiThread.thread.start();
 
                 // Log simulation status every 10 ticks
                 if (tickCount % 10 == 0) {
