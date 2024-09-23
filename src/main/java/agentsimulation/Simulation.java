@@ -1,7 +1,5 @@
 package agentsimulation;
 
-import agentsimulation.logic.FileLogger;
-
 import java.util.Random;
 
 /**
@@ -20,21 +18,19 @@ public class Simulation {
 
         GUIThread guiThread = new GUIThread(simulationThread.getAgentHandler());
 
-        FileLogger fileLogger = new FileLogger();
 
-        runSimulation(simulationThread, guiThread, fileLogger);
+        runSimulation(simulationThread, guiThread);
     }
 
-    private static void runSimulation(SimulationThread simulationThread, GUIThread guiThread, FileLogger fileLogger) {
+    private static void runSimulation(SimulationThread simulationThread, GUIThread guiThread) {
         simulationThread.thread.start();
         guiThread.thread.start();
-        while (simulationThread.thread.isAlive()) {
-            try {
-                if (simulationThread.logReady())
-                    fileLogger.logStatus(simulationThread.getAgentHandler().getAnimals(), simulationThread.getTickCounter());
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+
+        try {
+            simulationThread.thread.join();
+            guiThread.thread.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
 
         int timeSeconds = simulationThread.getTickCounter() * TICK_LENGTH_MS / 1000;
